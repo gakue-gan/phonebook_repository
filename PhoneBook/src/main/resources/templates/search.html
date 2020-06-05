@@ -3,9 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/style.css">
-<title>Insert title here</title>
+<title>電話帳アプリケーション</title>
 </head>
 <body>
+<h1>電話帳</h1>
+<form action="/search">
+	<input type="text" name = "keyword" value = "検索したい名前か電話番号を入力" th:value = "${keyword}" />
+	<input type="submit" value = "検索" />
+	<input type="submit" value = "登録" />
+</form>
+
+<table id = "table" border = "1" style = "border-collapse: collapse">
+	<tr>
+		<th class = "No">No</th>
+		<th class = "name">名前</th>
+		<th class = "phoneNumber">電話番号</th>
+		<th class = "upBtn"></th>
+		<th class = "delBtn">削除</th>
+
+	</tr>
+
+
+
+
+
+
+
+</table>
 
 </body>
 </html>
