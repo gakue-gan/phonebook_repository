@@ -1,17 +1,24 @@
 @charset "UTF-8";
 
 .msg {
-	color: red;
+	color: #ffffff;
+
 }
 
 body {
-	background-color: #f0f8ff;
+	background-color: #f4eade;
+	color:#111111;
 	margin: 0;
 	text-align: center;
+	font-size:20px;
+
 }
 
 h1 {
-	background-color: #b0c4de;
+	background-color: #2988bc;
+	color: #ffffff
+
+
 }
 
 #table {

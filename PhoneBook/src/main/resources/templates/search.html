@@ -2,34 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style1.css">
 <title>電話帳アプリケーション</title>
 </head>
 <body>
-<h1>電話帳</h1>
-<form action="/search">
-	<input type="text" name = "keyword" value = "検索したい名前か電話番号を入力" th:value = "${keyword}" />
-	<input type="submit" value = "検索" />
-	<input type="submit" value = "登録" />
-</form>
+	<h1>電話帳</h1>
+	<form action="/search">
+		<input type="text" name="keyword" value="検索したい名前か電話番号を入力"
+			th:value="${keyword}" />
+		<input type="submit" value="検索" />
+		<input type="submit" value="登録" />
+	</form>
 
-<table id = "table" border = "1" style = "border-collapse: collapse">
-	<tr>
-		<th class = "No">No</th>
-		<th class = "name">名前</th>
-		<th class = "phoneNumber">電話番号</th>
-		<th class = "upBtn"></th>
-		<th class = "delBtn">削除</th>
+	<p>件中</p>
+	<p>件を表示</p>
+	<input type="submit" value="←前ページに戻る" />
+	<input type="submit" value="次ページに進む→" />
 
-	</tr>
+	<table id="table" border="1" style="border-collapse: collapse">
+		<tr>
+			<th class="No">No</th>
+			<th class="name">名前</th>
+			<th class="phoneNumber">電話番号</th>
+			<th class="upBtn">更新</th>
+			<th class="delBtn">削除</th>
+		</tr>
 
+		<tr th:each="phoneBook, stat :${searchList}">
+			<td th:text="${stat.count}"></td>
+			<td th:text="${phoneBook.name}"></td>
+			<td th:text="${phoneBook.phoneNumber}"></td>
+			<td>
+				<form method="post" action="/update" th:object="${inputForm}">
 
+					<input type="hidden" name="name" th:value="${phoneBook.name}">
+					<input type="hidden" name="phoneNumber" th:value="${phoneBook.phoneNumber}">
+					<input type="submit" value="更新" />
 
+				</form>
 
+			</td>
+			<td>
+				<form method="post" action="/delete" th:object="${inputForm}" onsubmit="return submitChk()">
 
+					<input type="hidden" name="name" th:value="${phoneBook.name}">
+					<input type="hidden" name="phoneNumber" th:value="${phoneBook.phoneNumber}">
+					<input type="submit" value="削除" />
 
-
-</table>
-
+				</form>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>
