@@ -27,7 +27,7 @@ public class SearchService {
 	/**入力された名前と電話帳リストにある名前を比較して合致するものをListに格納するメソッド*/
 	public void execute(SearchForm input, ModelAndView mav) {
 		List<PhoneBookEntity> phoneBookList = null;
-		String keyword = input.getKeyword();	//入力された名前を取得
+		String keyword = input.getKeyword(); //入力された名前を取得
 		List<SearchResultForm> searchList = new ArrayList<>();
 		if (keyword == null) {
 			phoneBookList = phoneBookRepository.findAll();
@@ -48,7 +48,9 @@ public class SearchService {
 	}
 
 	private static void searchMsg(List<SearchResultForm> searchList, String inputName, ModelAndView mav) {
-		if (inputName == null) {return;}
+		if (inputName == null) {
+			return;
+		}
 		if (inputName.equals("")) {
 			mav.addObject("msg", MessageService.SEARCH_EMPTY);
 		} else if (searchList.size() == 0) {

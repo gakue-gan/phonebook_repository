@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" href="css/style1.css">
+<title>電話帳アプリケーション</title>
 </head>
 <body>
+	<h1>電話帳</h1>
+	<p>の情報を更新します。</p>
+
+	<span>名前：</span>
+	<input type="text" name="keyword" th:value="${keyword}" />
+
+	<form action="/regist">
+		<span>電話番号：</span> <input type="text" name="keyword"
+			th:value="${keyword}" /> <input type="text" name="keyword"
+			th:value="${keyword}" /> <input type="text" name="keyword"
+			th:value="${keyword}" /> <input type="submit" value="更新" />
+	</form>
+
 
 </body>
 </html>

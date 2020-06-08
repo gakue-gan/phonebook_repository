@@ -9,15 +9,16 @@
 	<h1>電話帳</h1>
 	<form action="/search">
 		<input type="text" name="keyword" value="検索したい名前か電話番号を入力"
-			th:value="${keyword}" />
-		<input type="submit" value="検索" />
-		<input type="submit" value="登録" />
+			th:value="${keyword}" /> <input type="submit" value="検索" /> <input
+			type="submit" value="登録" />
 	</form>
 
 	<p>件中</p>
 	<p>件を表示</p>
-	<input type="submit" value="←前ページに戻る" />
-	<input type="submit" value="次ページに進む→" />
+	<form action="/paging">
+		<input type="submit" value="←前ページに戻る" /> <input type="submit"
+			value="次ページに進む→" />
+	</form>
 
 	<table id="table" border="1" style="border-collapse: collapse">
 		<tr>
@@ -36,18 +37,21 @@
 				<form method="post" action="/update" th:object="${inputForm}">
 
 					<input type="hidden" name="name" th:value="${phoneBook.name}">
-					<input type="hidden" name="phoneNumber" th:value="${phoneBook.phoneNumber}">
-					<input type="submit" value="更新" />
+					<input type="hidden" name="phoneNumber"
+						th:value="${phoneBook.phoneNumber}"> <input type="submit"
+						value="更新" />
 
 				</form>
 
 			</td>
 			<td>
-				<form method="post" action="/delete" th:object="${inputForm}" onsubmit="return submitChk()">
+				<form method="post" action="/delete" th:object="${inputForm}"
+					onsubmit="return submitChk()">
 
 					<input type="hidden" name="name" th:value="${phoneBook.name}">
-					<input type="hidden" name="phoneNumber" th:value="${phoneBook.phoneNumber}">
-					<input type="submit" value="削除" />
+					<input type="hidden" name="phoneNumber"
+						th:value="${phoneBook.phoneNumber}"> <input type="submit"
+						value="削除" />
 
 				</form>
 			</td>
