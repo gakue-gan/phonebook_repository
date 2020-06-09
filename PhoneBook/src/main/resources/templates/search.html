@@ -14,9 +14,10 @@
 		<input type="text" name="keyword" value="検索したい名前か電話番号を入力"
 			th:value="${keyword}" /> <input type="submit" value="検索" />
 	</form>
-	<a href="regist.html">
-		<input type="button" value = "登録"/>
-	</a>
+
+	<form action="/regist" th:action="@{/regist}" method="get">
+		<input type="submit" value="登録" />
+	</form>
 
 
 	<form action="/displayedResults">
@@ -25,46 +26,44 @@
 	</form>
 
 	<form action="/paging">
-		<input type="submit" value="←前ページに戻る" /> <input type="submit"
-			value="次ページに進む→" />
+		<input type="submit" value="←前ページに戻る" />
+	</form>
+	<form action="/paging">
+		<input type="submit" value="次ページに進む→" />
 	</form>
 
-	<table id="table" border="1" style="border-collapse: collapse">
-		<tr>
-			<th class="No">No</th>
-			<th class="name">名前</th>
-			<th class="phoneNumber">電話番号</th>
-			<th class="upBtn">更新</th>
-			<th class="delBtn">削除</th>
-		</tr>
+		<table id="table" border="1" style="border-collapse: collapse">
+			<tr>
+				<th class="No">No</th>
+				<th class="name">名前</th>
+				<th class="phoneNumber">電話番号</th>
+				<th class="upBtn">更新</th>
+				<th class="delBtn">削除</th>
+			</tr>
 
-		<tr th:each="phoneBook, stat :${searchList}">
-			<td th:text="${stat.count}"></td>
-			<td th:text="${phoneBook.name}"></td>
-			<td th:text="${phoneBook.phoneNumber}"></td>
-			<td>
-				<form method="post" action="/update" th:object="${inputForm}">
+			<tr th:each="phoneBook, stat :${searchList}">
+				<td th:text="${stat.count}"></td>
+				<td th:text="${phoneBook.name}"></td>
+				<td th:text="${phoneBook.phoneNumber}"></td>
+				<td>
+					<form action="/update" th:action="@{/update}"
+						th:object="${message}" method="get">
+						<input type="submit" value="更新" />
+					</form>
 
-					<input type="hidden" name="name" th:value="${phoneBook.name}">
-					<input type="hidden" name="phoneNumber"
-						th:value="${phoneBook.phoneNumber}"> <input type="submit"
-						value="更新" />
+				</td>
+				<td>
+					<form method="post" action="/delete" th:object="${inputForm}"
+						onsubmit="return submitChk()">
 
-				</form>
+						<input type="hidden" name="name" th:value="${phoneBook.name}">
+						<input type="hidden" name="phoneNumber"
+							th:value="${phoneBook.phoneNumber}"> <input type="submit"
+							value="削除" />
 
-			</td>
-			<td>
-				<form method="post" action="/delete" th:object="${inputForm}"
-					onsubmit="return submitChk()">
-
-					<input type="hidden" name="name" th:value="${phoneBook.name}">
-					<input type="hidden" name="phoneNumber"
-						th:value="${phoneBook.phoneNumber}"> <input type="submit"
-						value="削除" />
-
-				</form>
-			</td>
-		</tr>
-	</table>
+					</form>
+				</td>
+			</tr>
+		</table>
 </body>
 </html>

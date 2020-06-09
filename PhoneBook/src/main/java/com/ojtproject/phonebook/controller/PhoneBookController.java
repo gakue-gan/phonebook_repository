@@ -34,9 +34,13 @@ public class PhoneBookController {
 	/**登録ページへの遷移*/
 	@RequestMapping(value = "/regist", method = RequestMethod.GET)
 	public ModelAndView regist(ModelAndView mav) {
-		return regist(new RegistForm(), mav);
+		return mav;
 	}
-
+	/**更新ページへの遷移*/
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public ModelAndView update(ModelAndView mav) {
+		return mav;
+	}
 
 	/**登録ロジックを呼び出して登録を行う*/
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)

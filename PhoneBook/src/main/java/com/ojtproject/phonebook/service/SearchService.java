@@ -31,9 +31,12 @@ public class SearchService {
 		List<SearchResultForm> searchList = new ArrayList<>();
 		if (keyword == null) {
 			phoneBookList = phoneBookRepository.findAll();
-		} else if (!"".equals(keyword)) {
+		} else if ("".equals(keyword)) {
 			// TODO 実装
-			phoneBookList = phoneBookRepository.findOnes(keyword);
+			phoneBookList = phoneBookRepository.findAll();
+		}else if (!"".equals(keyword)) {
+			// TODO 実装
+			phoneBookList = phoneBookRepository.find(keyword);
 		}
 		session.setAttribute("phoneBookList", phoneBookList);
 		for (int i = 0; i < phoneBookList.size(); i++) {
