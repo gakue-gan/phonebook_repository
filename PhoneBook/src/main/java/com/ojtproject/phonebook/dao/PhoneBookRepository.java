@@ -17,6 +17,10 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long
 	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_deleted FROM phone_book p", nativeQuery = true)
 	public List<PhoneBookEntity> findAll();
 
+	@Query(value = "SELECT p.phone_book_id, p.name, p.phone_number, false as is_deleted FROM phone_book p "
+			+ "WHERE p.name = :keyword OR p.phone_number = :keyword", nativeQuery = true)
+	public List<PhoneBookEntity> findOnes(String keyword);
+
 	/**削除SQL*/
 	@Modifying
 	@Transactional
@@ -26,8 +30,8 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long
 	/**登録SQL*/
 	@Modifying
 	@Transactional
-	@Query(value = "INSERT INTO phone_book (name,phone_number,phone_book_id) VALUES (:name,:phoneNumber,:phoneBookId)", nativeQuery = true)
-	public void regist(String name, String phoneNumber, String accountId);
+	@Query(value = "INSERT INTO phone_book (name,phone_number) VALUES (:name,:phoneNumber)", nativeQuery = true)
+	public void regist(String name, String phoneNumber);
 
 	/**更新SQL*/
 	@Modifying

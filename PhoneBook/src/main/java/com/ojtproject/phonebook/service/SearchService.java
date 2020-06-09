@@ -25,14 +25,15 @@ public class SearchService {
 	private PhoneBookRepository phoneBookRepository;
 
 	/**入力された名前と電話帳リストにある名前を比較して合致するものをListに格納するメソッド*/
-	public void execute(SearchForm input, ModelAndView mav) {
+	public void search(SearchForm input, ModelAndView mav) {
 		List<PhoneBookEntity> phoneBookList = null;
 		String keyword = input.getKeyword(); //入力された名前を取得
 		List<SearchResultForm> searchList = new ArrayList<>();
 		if (keyword == null) {
 			phoneBookList = phoneBookRepository.findAll();
-		} else if (!keyword.equals("")) {
+		} else if (!"".equals(keyword)) {
 			// TODO 実装
+			phoneBookList = phoneBookRepository.findOnes(keyword);
 		}
 		session.setAttribute("phoneBookList", phoneBookList);
 		for (int i = 0; i < phoneBookList.size(); i++) {
@@ -46,6 +47,7 @@ public class SearchService {
 		mav.setViewName("search");
 		SearchService.searchMsg(searchList, keyword, mav);
 	}
+
 
 	private static void searchMsg(List<SearchResultForm> searchList, String inputName, ModelAndView mav) {
 		if (inputName == null) {

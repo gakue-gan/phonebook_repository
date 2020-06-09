@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,14 +9,21 @@
 </head>
 <body>
 	<h1>電話帳</h1>
-	<form action="/search">
+	<form action="/search" th:action="@{/search}" th:object="${message}"
+		method="post">
 		<input type="text" name="keyword" value="検索したい名前か電話番号を入力"
-			th:value="${keyword}" /> <input type="submit" value="検索" /> <input
-			type="submit" value="登録" />
+			th:value="${keyword}" /> <input type="submit" value="検索" />
+	</form>
+	<a href="regist.html">
+		<input type="button" value = "登録"/>
+	</a>
+
+
+	<form action="/displayedResults">
+		<p>件中</p>
+		<p>件を表示</p>
 	</form>
 
-	<p>件中</p>
-	<p>件を表示</p>
 	<form action="/paging">
 		<input type="submit" value="←前ページに戻る" /> <input type="submit"
 			value="次ページに進む→" />
