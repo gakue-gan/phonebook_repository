@@ -9,13 +9,14 @@
 	<h1>電話帳</h1>
 	<p>新規情報を登録します。</p>
 
-	<form action="/regist">
-		<span>名前：</span> <input type="text" name="keyword"
-			th:value="${keyword}" /> <br>
-		<span>電話番号：</span> <input type="text" name="keyword"
-			th:value="${keyword}" /> <input type="text" name="keyword"
-			th:value="${keyword}" /> <input type="text" name="keyword"
-			th:value="${keyword}" /> <input type="submit" value="登録" />
+	<form action="/regist" th:action="@{/regist}" th:object="${message}"
+		method="post">
+		<span>名前：</span> <input type="text" name="name"
+			th:value="${name}" /> <br>
+		<span>電話番号：</span> <input type="text" name="areaCode"
+			th:value="${areaCode}" /> <input type="text" name="cityCode"
+			th:value="${cityCode}" /> <input type="text" name="identificationCode"
+			th:value="${identificationCode}" /> <input type="submit" value="登録" />
 	</form>
 
 

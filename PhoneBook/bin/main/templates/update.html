@@ -8,14 +8,14 @@
 <body>
 	<h1>電話帳</h1>
 	<p>の情報を更新します。</p>
-	<form action="/update">
-		<span>名前：</span> <input type="text" name="keyword"
-			th:value="${keyword}" /><br>
-			<span>電話番号：</span> <input
-			type="text" name="keyword" th:value="${keyword}" /> <input
-			type="text" name="keyword" th:value="${keyword}" /> <input
-			type="text" name="keyword" th:value="${keyword}" /> <input
-			type="submit" value="更新" />
+	<form action="/update" th:action="@{/update}" th:object="${message}"
+		method="post">
+		<span>名前：</span> <input type="text" name="name"
+			th:value="${name}" /> <br>
+		<span>電話番号：</span> <input type="text" name="areaCode"
+			th:value="${areaCode}" /> <input type="text" name="cityCode"
+			th:value="${cityCode}" /> <input type="text" name="idetificationCode"
+			th:value="${idetificationCode}" /> <input type="submit" value="更新" />
 	</form>
 
 
