@@ -25,8 +25,8 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long
 	/**削除SQL*/
 	@Modifying
 	@Transactional
-	@Query(value = "DELETE from phone_book WHERE phone_book_id = :id", nativeQuery = true)
-	public void delete(int id);
+	@Query(value = "UPDATE phone_book SET is_deleted = :true WHERE phone_book_id = :id", nativeQuery = true)
+	public void delete(@Param("id")int id);
 
 	/**登録SQL*/
 	@Modifying
@@ -37,6 +37,6 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookEntity, Long
 	/**更新SQL*/
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE phone_book SET name = :name, phone_number = :phoneNumber ,phone_book_id = :id WHERE phone_book_id = :id", nativeQuery = true)
-	public void update(String name, String phoneNumber, int id, String accountId);
+	@Query(value = "UPDATE phone_book SET name = :name, phone_number = :phoneNumber WHERE phone_book_id = :id", nativeQuery = true)
+	public void update(@Param("name")String name, @Param("phoneNumber")String phoneNumber);
 }

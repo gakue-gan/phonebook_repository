@@ -8,8 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ojtproject.phonebook.form.RegistForm;
 import com.ojtproject.phonebook.form.SearchForm;
+import com.ojtproject.phonebook.form.UpdateForm;
 import com.ojtproject.phonebook.service.RegistService;
 import com.ojtproject.phonebook.service.SearchService;
+import com.ojtproject.phonebook.service.UpdateService;
 
 @Controller
 public class PhoneBookController {
@@ -17,6 +19,8 @@ public class PhoneBookController {
 	private SearchService search;
 	@Autowired
 	private RegistService regist;
+	@Autowired
+	private UpdateService update;
 
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -36,16 +40,25 @@ public class PhoneBookController {
 	public ModelAndView regist(ModelAndView mav) {
 		return mav;
 	}
-	/**更新ページへの遷移*/
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public ModelAndView update(ModelAndView mav) {
-		return mav;
-	}
 
 	/**登録ロジックを呼び出して登録を行う*/
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView regist(RegistForm input, ModelAndView mav) {
 		regist.regist(input, mav);
+		return mav;
+	}
+
+	/**更新ページへの遷移*/
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public ModelAndView update(ModelAndView mav) {
+		
+		return mav;
+	}
+
+	/**更新ロジックを呼び出して更新を行う*/
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ModelAndView update(UpdateForm input, ModelAndView mav) {
+		update.update(input, mav);
 		return mav;
 	}
 }

@@ -2,23 +2,18 @@
 
 .msg {
 	color: #ffffff;
-
 }
 
 body {
-	background-color: #f4eade;
-	color:#111111;
+	background-color: #e4dace;
+	color: #111111;
 	margin: 0;
 	text-align: center;
-	font-size:20px;
-
+	font-size: 20px;
 }
 
 h1 {
-	background-color: #2988bc;
-	color: #ffffff
-
-
+	color: #12406a;
 }
 
 #table {
@@ -32,7 +27,43 @@ h1 {
 	text-align: right;
 }
 
-.button {
-	display: inline-flex;
-	margin-bottom: 10px;
+.button_search {
+	position: relative;
+	display: inline-block;
+	font-weight: bold;
+	padding: 1em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #e5bb4b;
+	transition: .4s;
+}
+.button_regist {
+	position: relative;
+	display: inline-block;
+	font-weight: bold;
+	padding: 1em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #498eaf;
+	transition: .4s;
+}
+.button_update {
+	position: relative;
+	display: inline-block;
+	font-weight: bold;
+	padding: 1em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #85cfb4;
+	transition: .4s;
+}
+.button_delete {
+	position: relative;
+	display: inline-block;
+	font-weight: bold;
+	padding: 1em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #ffb312;
+	transition: .4s;
 }
