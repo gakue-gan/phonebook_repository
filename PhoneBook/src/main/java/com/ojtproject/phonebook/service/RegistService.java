@@ -37,7 +37,7 @@ public class RegistService {
 			mav.addObject("cityCode", cityCode);
 			mav.addObject("identificationCode", identificationCode);
 			return;
-		}else if (!isCorrectCodeByOneBox) {
+		}else if (!isCorrectCodeByOneBox || !isCorrectPhoneNumber) {
 			mav.addObject("msg", MessageService.PHONENUMBER_FAULT);
 			mav.addObject("name", name);
 			mav.addObject("areaCode", areaCode);
