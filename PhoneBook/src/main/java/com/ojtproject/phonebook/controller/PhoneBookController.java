@@ -4,11 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ojtproject.phonebook.form.DeleteForm;
 import com.ojtproject.phonebook.form.RegistForm;
 import com.ojtproject.phonebook.form.SearchForm;
 import com.ojtproject.phonebook.form.UpdateForm;
+import com.ojtproject.phonebook.service.DeleteService;
+import com.ojtproject.phonebook.service.MessageService;
 import com.ojtproject.phonebook.service.RegistService;
 import com.ojtproject.phonebook.service.SearchService;
 import com.ojtproject.phonebook.service.UpdateService;
@@ -21,6 +25,8 @@ public class PhoneBookController {
 	private RegistService regist;
 	@Autowired
 	private UpdateService update;
+	@Autowired
+	private DeleteService delete;
 
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -38,20 +44,39 @@ public class PhoneBookController {
 	/**登録ページへの遷移*/
 	@RequestMapping(value = "/regist", method = RequestMethod.GET)
 	public ModelAndView regist(ModelAndView mav) {
+		mav.addObject("msg", MessageService.REGIST_NEW);
 		return mav;
 	}
 
 	/**登録ロジックを呼び出して登録を行う*/
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView regist(RegistForm input, ModelAndView mav) {
+
 		regist.regist(input, mav);
 		return mav;
 	}
 
 	/**更新ページへの遷移*/
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public ModelAndView update(ModelAndView mav) {
-		
+	public ModelAndView update(ModelAndView mav, @RequestParam(value = "id", required = true) int id, @RequestParam(value = "name", required = true) String name,
+			@RequestParam(value = "phoneNumber", required = true) String phoneNumber) {
+		// 次の画面に引き継ぐパラメータをキーとバリューの形式で渡す。
+		// したの例はバリューにString型の文字列を渡しているが、別にオブジェクト型でもOK
+
+		String[] code = phoneNumber.split("-", 0);
+
+		String areaCode = code[0];
+		String cityCode = code[1];
+		String identificationCode = code[2];
+
+		mav.addObject("msg", name + MessageService.EDIT_ACCOUNT);
+		mav.addObject("id", id);
+		mav.addObject("name", name);
+		mav.addObject("areaCode", areaCode);
+		mav.addObject("cityCode", cityCode);
+		mav.addObject("identificationCode", identificationCode);
+		// 次に遷移するHTMLの名前を指定する
+		mav.setViewName("/update");
 		return mav;
 	}
 
@@ -60,5 +85,13 @@ public class PhoneBookController {
 	public ModelAndView update(UpdateForm input, ModelAndView mav) {
 		update.update(input, mav);
 		return mav;
+	}
+
+	/**削除ロジックを呼び出して削除を行う*/
+	@RequestMapping (value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(DeleteForm input, ModelAndView mav) {
+		delete.delete(input, mav);
+
+		return search(new SearchForm(), mav);
 	}
 }

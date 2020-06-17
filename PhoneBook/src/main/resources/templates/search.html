@@ -4,34 +4,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="css/style1.css">
+<link rel="stylesheet" href="css/style.css">
 <title>電話帳アプリケーション</title>
 </head>
 <body>
-	<h1>電話帳</h1>
-	<form action="/search" th:action="@{/search}" th:object="${message}"
-		method="post">
-		<input type="text" name="keyword" placeholder="検索したい名前か電話番号を入力"
-			th:value="${keyword}" /> <input type="submit" class="button_search"
-			value="検索" />
-	</form>
+<script type="text/javascript" src="js/submitChk.js"></script>
 
+	<div class="inline-block">
+	<h1>電話帳</h1>
+	</div>
+	<div class="inline-block">
+	<form action="/search" th:action="@{/search}" th:object="${message}" method="post">
+		<input type="text" name="keyword" placeholder="検索したい名前か電話番号を入力"
+		th:value="${keyword}" style="width: 200px; height: 20px;" />
+		<input type="submit" class="button_search" value="検索" />
+
+	</form>
+	</div>
+	<div class="inline-block">
 	<form action="/regist" th:action="@{/regist}" method="get">
 		<input type="submit" class="button_regist" value="登録" />
 	</form>
+	</div>
+	<br>
 
+	<span th:text = "${msg}"></span>
 
-	<form action="/displayedResults">
-		<p>件中</p>
-		<p>件を表示</p>
-	</form>
+		<input type="submit" onclick = "prevPaging()" value="←前ページに戻る" />
+		<input type="submit" onclick = "nextPaging()" value="次ページに進む→" />
 
-	<form action="/paging">
-		<input type="submit" value="←前ページに戻る" />
-	</form>
-	<form action="/paging">
-		<input type="submit" value="次ページに進む→" />
-	</form>
 
 	<table id="table" border="1" style="border-collapse: collapse">
 		<tr>
@@ -47,20 +48,20 @@
 			<td th:text="${phoneBook.name}"></td>
 			<td th:text="${phoneBook.phoneNumber}"></td>
 			<td>
-				<form action="/update" th:action="@{/update}" th:object="${message}"
-					method="get">
+				<form action="/update" th:action="@{/update}" th:object="${message}" method="get">
+
+	 				<input type="hidden" name="id" th:value="${phoneBook.id}">
+					<input type="hidden" name="name" th:value="${phoneBook.name}">
+					<input type="hidden" name="phoneNumber" th:value="${phoneBook.phoneNumber}">
 					<input type="submit" class="button_update" value="更新" />
 				</form>
 
 			</td>
 			<td>
-				<form method="post" action="/delete" th:object="${inputForm}"
-					onsubmit="return submitChk()">
 
-					<input type="hidden" name="na me" th:value="${phoneBook.name}">
-					<input type="hidden" name="phoneNumber"
-						th:value="${phoneBook.phoneNumber}"> <input type="submit"
-						class="button_delete" value="削除" />
+				<form action="/delete" th:action = "@{/delete}" onsubmit="return submitChk()" th:object = "${inputForm}" method="get">
+					<input type="hidden" name="id" th:value="${phoneBook.id}">
+					<input type="submit" class="button_delete" value="削除" />
 
 				</form>
 			</td>

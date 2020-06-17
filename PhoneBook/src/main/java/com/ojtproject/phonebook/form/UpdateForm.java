@@ -2,10 +2,21 @@ package com.ojtproject.phonebook.form;
 
 public class UpdateForm {
 
+	private int id;
+
 	private String areaCode;
 	private String cityCode;
 	private String name;
 	private String identificationCode;
+
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getAreaCode() {
 		return areaCode;

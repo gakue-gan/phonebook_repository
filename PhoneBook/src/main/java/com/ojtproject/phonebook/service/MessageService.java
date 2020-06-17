@@ -18,7 +18,9 @@ public class MessageService {
 	public static final String SEARCH_EMPTY = "検索する名前を入力してください。";
 
 	/**検索にヒットした際に出すメッセージ*/
-	public static final String SEARCH_HIT_COUNT = "件ヒットしました。";
+	public static final String SEARCH_HIT_COUNT = "件中";
+
+	public static final String SEARCH_HIT_DISPLAYEDCOUNT = "件を表示";
 
 	/**検索にヒットした際に出すメッセージ*/
 	public static final String SEARCH_NOT_HIT = "入力された名前はありません。";
@@ -26,11 +28,17 @@ public class MessageService {
 	/**入力した値が空の場合に出すメッセージ*/
 	public static final String INPUT_EMPTY = "名前または電話番号を入力してください。";
 
+	/**入力された名前が20文字以上だった場合に出すメッセージ*/
+	public static final String SEARCH_LIMIT = "検索内容は20文字以内で入力してください。";
+
 	/**入力された名前が15文字以上だった場合に出すメッセージ*/
-	public static final String NAME_LIMIT = "名前は15文字以内で入力してください。";
+	public static final String NAME_LIMIT = "名前は20文字以内で入力してください。";
+
+	/**新規登録時に表示するメッセージ*/
+	public static final String REGIST_NEW = "新規登録をします。";
 
 	/**入力された電話番号が不正な場合に出すメッセージ*/
-	public static final String PHONENUMBER_FAULT = "電話番号が不正です。(ハイフンを入れて)";
+	public static final String PHONENUMBER_FAULT = "電話番号が不正です。";
 
 	/**入力された電話番号が重複している場合に出すメッセージ*/
 	public static final String PHONENUMBER_DOUBLE = "電話番号が重複しています。";
@@ -40,6 +48,12 @@ public class MessageService {
 
 	/**入力された名前とパスワードがすでに使われている場合に出すメッセージ*/
 	public static final String INPUT_ACCOUNT_USED = "入力された名前とパスワードの組み合わせはすでに使われています。";
+
+	/**アカウント変更を行う際のメッセージ*/
+	public static final String EDIT_ACCOUNT = "さんの情報を更新します。";
+
+	/**アカウント変更を行った際のメッセージ*/
+	public static final String EDIT_SUCCESS = "さんの情報を更新しました。";
 
 	/**アカウント登録や変更が正常に行われた際に出すメッセージ*/
 	public static final String SUCCESS_ACCOUNT = "さんを登録しました。";

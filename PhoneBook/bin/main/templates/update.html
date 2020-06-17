@@ -2,28 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="css/style2.css">
+<link rel="stylesheet" href="css/style.css">
 <title>電話帳アプリケーション</title>
 </head>
 <body>
+	<script type="text/javascript" src="js/submitChk.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
+
 	<h1>電話帳</h1>
-	<p th:text="さんの情報を更新します。"/><!-- ${message.text} +  -->>
-	<form action="/update" th:action="@{/update}" th:object="${message}"
-		method="post">
-		<span>名前：</span> <input type="text" name="name"
-			th:value="${name}" /> <br>
-		<span>電話番号：</span> <input type="text" name="areaCode" value = "090"
-			th:value="${areaCode}" /> <input type="text" name="cityCode"
-			th:value="${cityCode}" /> <input type="text" name="idetificationCode"
-			th:value="${idetificationCode}" /> <input type="submit" value="更新" />
-			<script>
-			if (!window.confirm('更新しますか？')){
-				return;
-			}
-			</script>
+	<span th:text="${msg}"></span>
+	<form action="/update" th:action="@{/update}"
+		onsubmit="return submitChk()" th:object="${message}" method="post">
+
+		<span>名前：</span> <input type="text" name="name" th:value="${name}" /> <br>
+
+		<span>電話番号：</span>
+		<input type="hidden" name="id" th:value="${id}">
+		<input type="text" name="areaCode" th:value="${areaCode}" />
+		<input type="text" name="cityCode" th:value="${cityCode}" />
+		<input type="text" name="identificationCode" th:value="${identificationCode}" />
+		<input type="submit" class="button_update" value="更新" />
+
 	</form>
 
+	<form action="/" th:action = "@{/}" method = "get">
+		<input type="submit" name = "return" class = "return" value = "検索画面に戻る"/>
+	</form>
 
-</body>
+	</body>
 </html>
 

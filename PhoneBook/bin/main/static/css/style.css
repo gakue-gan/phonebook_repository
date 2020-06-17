@@ -1,0 +1,143 @@
+@charset "UTF-8";
+
+.msg {
+	color: #ffffff;
+}
+
+body {
+	background-color: #fff;
+	color: #111111;
+	text-align: center;
+	font-size: 20px;
+	margin: 0;
+}
+
+h1 {
+	color: #12406a;
+}
+
+#table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#table, th, td {
+	border: 1px solid #bbb;
+}
+
+.accountInfo {
+	margin-top: 20px;
+	margin-right: 10px;
+	text-align: right;
+}
+
+.button_search {
+	position: relative;
+	display: inline-block;
+	font-weight: bold;
+	padding: 1em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #ff1694;
+	transition: .4s;
+}
+
+.button_regist {
+	position: relative;
+	display: inline-block;
+	font-weight: bold;
+	padding: 1em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #498eaf;
+	transition: .4s;
+}
+
+.button_regist_new {
+	position: relative;
+	right: 10px;
+	display: inline-block;
+	font-weight: bold;
+	padding: 1em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #498eaf;
+	transition: .4s;
+	right: 10px;
+}
+
+.button_update {
+	position: relative;
+	display: inline-block;
+	font-weight: bold;
+	padding: 1em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #85cfb4;
+	transition: .4s;
+}
+
+.button_delete {
+	position: relative;
+	display: inline-block;
+	font-weight: bold;
+	padding: 1em 0.5em;
+	text-decoration: none;
+	color: #FFF;
+	background: #ffb312;
+	transition: .4s;
+}
+
+.inline-block {
+	display: inline-block; /* インラインブロック要素にする */
+}
+
+#wrapper {
+	width: 650px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.txt {
+	width:300px;
+	display: inline-block;
+	text-align: left;
+}
+
+.nameField {
+	text-align: left;
+}
+
+.phoneField {
+	text-align: left;
+}
+
+.phoneNum {
+	display: inine-block;
+}
+
+.return {
+	position: relative;
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.25em 0;
+  text-decoration: none;
+  color: #67c5ff;
+}
+
+.return:before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 4px;
+  top:100%;
+  left: 0;
+  border-radius: 3px;
+  background:#ffffff;
+  transition: .2s;
+}
+
+.return:hover:before {
+  top: -webkit-calc(100% - 3px);
+  top: calc(100% - 3px);
+}
