@@ -1,5 +1,8 @@
 package com.ojtproject.phonebook.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,18 +29,21 @@ public class RegistService {
 		String phoneNumber = areaCode + "-" + cityCode + "-" + identificationCode;
 
 		boolean isCorrectName = ValidationUtil.validateName(name);
-		boolean isCorrectCodeByOneBox = ValidationUtil.validateOneBox(areaCode) && ValidationUtil.validateOneBox(cityCode)
-				&& ValidationUtil.validateOneBox(identificationCode);
-		boolean isCorrectPhoneNumber = ValidationUtil.validateTotalBoxes(areaCode + cityCode + identificationCode);
+		boolean isCorrectCodeByOneBox = ValidationUtil.validateOneBox(areaCode, cityCode, identificationCode);
+		boolean isCorrectPhoneNumber = ValidationUtil.validateTotalBoxes(areaCode, cityCode, identificationCode);
 
-		if (!isCorrectName && !isCorrectCodeByOneBox && !isCorrectPhoneNumber) {
-			mav.addObject("msg", MessageService.NAME_LIMIT + MessageService.PHONENUMBER_FAULT);
+		if (!isCorrectName && (!isCorrectCodeByOneBox || !isCorrectPhoneNumber)) {
+			List<String> errorMessage = new ArrayList<>();
+			errorMessage.add(MessageService.NAME_LIMIT);
+			errorMessage.add(MessageService.PHONENUMBER_FAULT);
+			mav.addObject("msg", errorMessage);
+
 			mav.addObject("name", name);
 			mav.addObject("areaCode", areaCode);
 			mav.addObject("cityCode", cityCode);
 			mav.addObject("identificationCode", identificationCode);
 			return;
-		}else if (!isCorrectCodeByOneBox || !isCorrectPhoneNumber) {
+		} else if (!isCorrectCodeByOneBox || !isCorrectPhoneNumber) {
 			mav.addObject("msg", MessageService.PHONENUMBER_FAULT);
 			mav.addObject("name", name);
 			mav.addObject("areaCode", areaCode);
@@ -55,7 +61,6 @@ public class RegistService {
 
 		phoneBookRepository.regist(name, phoneNumber);
 		registMsg(name, phoneNumber, mav);
-
 
 	}
 

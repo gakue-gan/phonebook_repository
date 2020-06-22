@@ -22,6 +22,7 @@ import com.ojtproject.phonebook.util.ValidationUtil;
 public class SearchService {
 	@Autowired
 	private HttpSession session;
+
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
 
@@ -44,8 +45,38 @@ public class SearchService {
 			// キーワード検索
 			phoneBookList = phoneBookRepository.find(keyword);
 		}
+
+		// セッションにphoneBookListを格納
 		session.setAttribute("phoneBookList", phoneBookList);
-		for (int i = 0; i < phoneBookList.size(); i++) {
+
+		int numOfPhoneBookList = phoneBookList.size();
+		for (int i = 0; i < Math.min(numOfPhoneBookList, 15); i++) {
+			PhoneBookEntity entity = phoneBookList.get(i);
+			SearchResultForm sf = new SearchResultForm();
+			sf.setId(entity.getId());
+			sf.setName(entity.getName());
+			sf.setPhoneNumber(entity.getPhoneNumber());
+			searchList.add(sf);
+		}
+		int pageNumber = 1;
+		mav.addObject("searchList", searchList);
+		mav.addObject("pageNumber", pageNumber);
+		mav.addObject("keyword", keyword);
+		mav.setViewName("search");
+		SearchService.searchMsg(phoneBookList, searchList, keyword, mav);
+	}
+
+	public void divade2ndPageAndBeyond(
+			int pageNumber,
+			SearchForm input, ModelAndView mav) {
+
+		// セッションからphoneBookListを読み込み
+		List<PhoneBookEntity> phoneBookList = (ArrayList<PhoneBookEntity>) session.getAttribute("phoneBookList");
+		int tailIndex = phoneBookList.size() - 1;
+		pageNumber++;
+		List<SearchResultForm> searchList = new ArrayList<>();
+
+		for (int i = 15 * (pageNumber - 1); i < Math.min(15 * pageNumber, tailIndex); i++) {
 			PhoneBookEntity entity = phoneBookList.get(i);
 			SearchResultForm sf = new SearchResultForm();
 			sf.setId(entity.getId());
@@ -54,18 +85,20 @@ public class SearchService {
 			searchList.add(sf);
 		}
 		mav.addObject("searchList", searchList);
-		mav.addObject("keyword", keyword);
-		mav.setViewName("search");
-		SearchService.searchMsg(searchList, keyword, mav);
+		mav.addObject("pageNumber", pageNumber);
+		mav.addObject("keyword");
+		mav.setViewName("search-" + pageNumber + "page");
+		SearchService.searchMsg(phoneBookList, searchList, input.getKeyword(), mav);
 	}
 
-	private static void searchMsg(List<SearchResultForm> searchList, String inputName, ModelAndView mav) {
+	private static void searchMsg(List<PhoneBookEntity> phoneBookList, List<SearchResultForm> searchList,
+			String inputName, ModelAndView mav) {
 
 		if (inputName == null) {
-			mav.addObject("msg", searchList.size() + MessageService.SEARCH_HIT_COUNT
+			mav.addObject("msg", phoneBookList.size() + MessageService.SEARCH_HIT_COUNT
 					+ searchList.size() + MessageService.SEARCH_HIT_DISPLAYEDCOUNT);
 		} else if ("".equals(inputName)) {
-			mav.addObject("msg", searchList.size() + MessageService.SEARCH_HIT_COUNT
+			mav.addObject("msg", phoneBookList.size() + MessageService.SEARCH_HIT_COUNT
 					+ searchList.size() + MessageService.SEARCH_HIT_DISPLAYEDCOUNT);
 		} else if (!ValidationUtil.validateName(inputName)) {
 			mav.addObject("msg", MessageService.SEARCH_LIMIT);

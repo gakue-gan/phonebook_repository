@@ -8,7 +8,6 @@ public class SearchResultForm {
 	/**検索で一致した電話番号*/
 	private String phoneNumber;
 
-
 	public int getId() {
 		return id;
 	}

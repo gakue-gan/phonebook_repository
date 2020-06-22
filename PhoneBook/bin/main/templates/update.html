@@ -10,7 +10,17 @@
 	<script type="text/javascript" src="js/script.js"></script>
 
 	<h1>電話帳</h1>
-	<span th:text="${msg}"></span>
+
+	<div th:if="${#lists.isEmpty(message)}">
+		<span th:text="${msg}"></span>
+	</div>
+
+	<div th:if="!${#lists.isEmpty(message)}">
+		<tr th:each="msg : ${message}">
+		<td th:text="${msg}"></td>
+		</tr>
+	</div>
+
 	<form action="/update" th:action="@{/update}"
 		onsubmit="return submitChk()" th:object="${message}" method="post">
 

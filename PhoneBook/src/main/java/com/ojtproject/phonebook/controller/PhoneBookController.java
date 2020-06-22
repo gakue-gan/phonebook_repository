@@ -41,9 +41,18 @@ public class PhoneBookController {
 		return mav;
 	}
 
+	/**次ページへ遷移*/
+	@RequestMapping(value = "/nextPaging", method = RequestMethod.POST)
+	public ModelAndView pagesNext(@RequestParam(value = "pageNumber", required = true) int pageNumber,
+			SearchForm input, ModelAndView mav ) {
+		search.divade2ndPageAndBeyond(pageNumber, input, mav);
+		return mav;
+	}
+
 	/**登録ページへの遷移*/
 	@RequestMapping(value = "/regist", method = RequestMethod.GET)
 	public ModelAndView regist(ModelAndView mav) {
+
 		mav.addObject("msg", MessageService.REGIST_NEW);
 		return mav;
 	}
@@ -56,26 +65,17 @@ public class PhoneBookController {
 		return mav;
 	}
 
+
+
 	/**更新ページへの遷移*/
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public ModelAndView update(ModelAndView mav, @RequestParam(value = "id", required = true) int id, @RequestParam(value = "name", required = true) String name,
+	public ModelAndView update(ModelAndView mav, @RequestParam(value = "id", required = true) int id,
+			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber) {
 		// 次の画面に引き継ぐパラメータをキーとバリューの形式で渡す。
 		// したの例はバリューにString型の文字列を渡しているが、別にオブジェクト型でもOK
 
-		String[] code = phoneNumber.split("-", 0);
-
-		String areaCode = code[0];
-		String cityCode = code[1];
-		String identificationCode = code[2];
-
-		mav.addObject("msg", name + MessageService.EDIT_ACCOUNT);
-		mav.addObject("id", id);
-		mav.addObject("name", name);
-		mav.addObject("areaCode", areaCode);
-		mav.addObject("cityCode", cityCode);
-		mav.addObject("identificationCode", identificationCode);
-		// 次に遷移するHTMLの名前を指定する
+		update.updateInIt(id, name, phoneNumber, mav);
 		mav.setViewName("/update");
 		return mav;
 	}
@@ -88,7 +88,7 @@ public class PhoneBookController {
 	}
 
 	/**削除ロジックを呼び出して削除を行う*/
-	@RequestMapping (value = "/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(DeleteForm input, ModelAndView mav) {
 		delete.delete(input, mav);
 

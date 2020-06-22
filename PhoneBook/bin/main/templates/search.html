@@ -8,32 +8,36 @@
 <title>電話帳アプリケーション</title>
 </head>
 <body>
-<script type="text/javascript" src="js/submitChk.js"></script>
+	<script type="text/javascript" src="js/submitChk.js"></script>
 
 	<div class="inline-block">
-	<h1>電話帳</h1>
+		<h1>電話帳</h1>
 	</div>
 	<div class="inline-block">
-	<form action="/search" th:action="@{/search}" th:object="${message}" method="post">
-		<input type="text" name="keyword" placeholder="検索したい名前か電話番号を入力"
-		th:value="${keyword}" style="width: 200px; height: 20px;" />
-		<input type="submit" class="button_search" value="検索" />
+		<form action="/search" th:action="@{/search}" th:object="${message}"
+			method="post">
+			<input type="text" name="keyword" placeholder="検索したい名前か電話番号を入力"
+				th:value="${keyword}" style="width: 200px; height: 20px;" /> <input
+				type="submit" class="button_search" value="検索" />
 
-	</form>
+		</form>
 	</div>
 	<div class="inline-block">
-	<form action="/regist" th:action="@{/regist}" method="get">
-		<input type="submit" class="button_regist" value="登録" />
-	</form>
+		<form action="/regist" th:action="@{/regist}" method="get">
+			<input type="submit" class="button_regist" value="登録" />
+		</form>
 	</div>
 	<br>
 
-	<span th:text = "${msg}"></span>
+	<span th:text="${msg}"></span>
 
-		<input type="submit" onclick = "prevPaging()" value="←前ページに戻る" />
-		<input type="submit" onclick = "nextPaging()" value="次ページに進む→" />
+	<input type="submit" onclick="prevPaging()" value="←前ページに戻る" />
 
+		<form action = "/nextPaging" method="post">
+		<input type="hidden" name="pageNumber" th:value="${pageNumber}">
 
+		<input type="submit" value="次ページに進む→" />
+		</form>
 	<table id="table" border="1" style="border-collapse: collapse">
 		<tr>
 			<th class="No">No</th>
@@ -48,18 +52,21 @@
 			<td th:text="${phoneBook.name}"></td>
 			<td th:text="${phoneBook.phoneNumber}"></td>
 			<td>
-				<form action="/update" th:action="@{/update}" th:object="${message}" method="get">
+				<form action="/update" th:action="@{/update}" th:object="${message}"
+					method="get">
 
-	 				<input type="hidden" name="id" th:value="${phoneBook.id}">
+					<input type="hidden" name="id" th:value="${phoneBook.id}">
 					<input type="hidden" name="name" th:value="${phoneBook.name}">
-					<input type="hidden" name="phoneNumber" th:value="${phoneBook.phoneNumber}">
-					<input type="submit" class="button_update" value="更新" />
+					<input type="hidden" name="phoneNumber"
+						th:value="${phoneBook.phoneNumber}"> <input type="submit"
+						class="button_update" value="更新" />
 				</form>
 
 			</td>
 			<td>
 
-				<form action="/delete" th:action = "@{/delete}" onsubmit="return submitChk()" th:object = "${inputForm}" method="get">
+				<form action="/delete" th:action="@{/delete}"
+					onsubmit="return submitChk()" th:object="${inputForm}" method="get">
 					<input type="hidden" name="id" th:value="${phoneBook.id}">
 					<input type="submit" class="button_delete" value="削除" />
 
