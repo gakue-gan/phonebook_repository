@@ -87,7 +87,6 @@ public class SearchService {
 		mav.addObject("searchList", searchList);
 		mav.addObject("pageNumber", pageNumber);
 		mav.addObject("keyword");
-		mav.setViewName("search-" + pageNumber + "page");
 		SearchService.searchMsg(phoneBookList, searchList, input.getKeyword(), mav);
 	}
 

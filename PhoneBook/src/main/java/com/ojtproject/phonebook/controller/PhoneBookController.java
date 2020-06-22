@@ -43,7 +43,7 @@ public class PhoneBookController {
 
 	/**次ページへ遷移*/
 	@RequestMapping(value = "/nextPaging", method = RequestMethod.POST)
-	public ModelAndView pagesNext(@RequestParam(value = "pageNumber", required = true) int pageNumber,
+	public ModelAndView nextPaging(@RequestParam(value = "pageNumber", required = true) int pageNumber,
 			SearchForm input, ModelAndView mav ) {
 		search.divade2ndPageAndBeyond(pageNumber, input, mav);
 		return mav;
