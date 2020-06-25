@@ -11,20 +11,15 @@
 
 	<h1>電話帳</h1>
 
-	<div th:if="${#lists.isEmpty(message)}">
-		<span th:text="${msg}"></span>
-	</div>
-
-	<div th:if="!${#lists.isEmpty(message)}">
-		<tr th:each="msg : ${message}">
-			<td th:text="${msg}"></td>
+	<table id = "message" border = "0">
+		<tr th:each="word : ${msg}">
+			<td th:text = "${word}"></td>
 		</tr>
-	</div>
+	</table>
 
-	<form action="/update" th:action="@{/update}"
-		onsubmit="return submitChk()" th:object="${message}" method="post">
+	<form th:action="@{/update}" onsubmit="return submitChk()" th:object="${message}" method="post">
 
-		<span>名前：</span> <input type="text" name="name" th:value="${name}" /> <br>
+		<span>名前　　：</span> <input type="text" name="name" th:value="${name}" /> <br>
 
 		<span>電話番号：</span>
 		<input type="hidden" name="id" th:value="${id}">
@@ -35,7 +30,7 @@
 
 	</form>
 
-	<form action="/" th:action = "@{/}" method = "get">
+	<form th:action = "@{/}" method = "get">
 		<input type="submit" name = "return" class = "return" value = "検索画面に戻る"/>
 	</form>
 

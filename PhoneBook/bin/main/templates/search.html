@@ -10,34 +10,42 @@
 <body>
 	<script type="text/javascript" src="js/submitChk.js"></script>
 
-	<div class="inline-block">
+	<div class="inline-block-1">
 		<h1>電話帳</h1>
 	</div>
-	<div class="inline-block">
-		<form action="/search" th:action="@{/search}" th:object="${message}"
-			method="post">
+	<div class="inline-block-1">
+		<form th:action="@{/search}" th:object="${message}" method="post">
 			<input type="text" name="keyword" placeholder="検索したい名前か電話番号を入力"
-				th:value="${keyword}" style="width: 200px; height: 20px;" /> <input
-				type="submit" class="button_search" value="検索" />
-
+				th:value="${keyword}" style="width: 200px; height: 20px;" /> 
+				<input type="submit" class="button_search" value="検索" />
 		</form>
 	</div>
-	<div class="inline-block">
-		<form action="/regist" th:action="@{/regist}" method="get">
+	<div class="inline-block-1">
+		<form th:action="@{/regist}" method="get">
 			<input type="submit" class="button_regist" value="登録" />
 		</form>
-	</div>
-	<br>
+	</div><br>
 
-	<span th:text="${msg}"></span>
+	<table id = "message" >
+		<tr th:each="word : ${msg}">
+			<td th:text = "${word}"></td>
+		</tr>
+	</table>
 
-	<input type="submit" onclick="prevPaging()" value="←前ページに戻る" />
-
-		<form action = "/nextPaging" method="post">
-		<input type="hidden" name="pageNumber" th:value="${pageNumber}">
-
-		<input type="submit" value="次ページに進む→" />
+	<div th:if="!${pageNumber == 1}" class="inline-block-2">
+		<form th:action="@{/prevPaging}" method="get">
+			<input type="hidden" name="pageNumber" th:value="${pageNumber}">
+			<input type="hidden" name="keyword" th:value="${keyword}">
+			<input type="submit" value="←戻る" />
 		</form>
+	</div>
+	<div th:if="${existsNext}" class="inline-block-2">
+		<form th:action="@{/nextPaging}" method="get">
+			<input type="hidden" name="pageNumber" th:value="${pageNumber}">
+			<input type="hidden" name="keyword" th:value="${keyword}">
+			<input type="submit" value="進む→" />
+		</form>
+	</div>
 	<table id="table" border="1" style="border-collapse: collapse">
 		<tr>
 			<th class="No">No</th>
@@ -48,11 +56,11 @@
 		</tr>
 
 		<tr th:each="phoneBook, stat :${searchList}">
-			<td th:text="${stat.count}"></td>
+			<td th:text="${stat.count + 15 * (pageNumber - 1)}"></td>
 			<td th:text="${phoneBook.name}"></td>
 			<td th:text="${phoneBook.phoneNumber}"></td>
 			<td>
-				<form action="/update" th:action="@{/update}" th:object="${message}"
+				<form th:action="@{/update}" th:object="${message}"
 					method="get">
 
 					<input type="hidden" name="id" th:value="${phoneBook.id}">
@@ -65,9 +73,10 @@
 			</td>
 			<td>
 
-				<form action="/delete" th:action="@{/delete}"
+				<form th:action="@{/delete}"
 					onsubmit="return submitChk()" th:object="${inputForm}" method="get">
 					<input type="hidden" name="id" th:value="${phoneBook.id}">
+					<input type="hidden" name="name" th:value="${phoneBook.name}">
 					<input type="submit" class="button_delete" value="削除" />
 
 				</form>

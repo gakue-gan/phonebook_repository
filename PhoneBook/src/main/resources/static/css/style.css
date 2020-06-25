@@ -21,6 +21,11 @@ h1 {
 	margin-right: auto;
 }
 
+#message {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #table, th, td {
 	border: 1px solid #bbb;
 }
@@ -63,7 +68,6 @@ h1 {
 	color: #FFF;
 	background: #498eaf;
 	transition: .4s;
-	right: 10px;
 }
 
 .button_update {
@@ -88,7 +92,10 @@ h1 {
 	transition: .4s;
 }
 
-.inline-block {
+.inline-block-1 {
+	display: inline-block; /* インラインブロック要素にする */
+}
+.inline-block-2 {
 	display: inline-block; /* インラインブロック要素にする */
 }
 
@@ -104,13 +111,6 @@ h1 {
 	text-align: left;
 }
 
-.nameField {
-	text-align: left;
-}
-
-.phoneField {
-	text-align: left;
-}
 
 .phoneNum {
 	display: inine-block;

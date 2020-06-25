@@ -1,5 +1,8 @@
 package com.ojtproject.phonebook.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +31,7 @@ public class PhoneBookController {
 	@Autowired
 	private DeleteService delete;
 
+
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView index(ModelAndView mav) {
@@ -41,40 +45,43 @@ public class PhoneBookController {
 		return mav;
 	}
 
+	/**前ページへ遷移*/
+	@RequestMapping(value = "/prevPaging", method = RequestMethod.GET)
+	public ModelAndView prevPaging(@RequestParam(value = "pageNumber", required = true) int pageNumber,
+			SearchForm input, ModelAndView mav ) {
+		search.returnPrevPage(pageNumber, input, mav);
+		return mav;
+	}
 	/**次ページへ遷移*/
-	@RequestMapping(value = "/nextPaging", method = RequestMethod.POST)
+	@RequestMapping(value = "/nextPaging", method = RequestMethod.GET)
 	public ModelAndView nextPaging(@RequestParam(value = "pageNumber", required = true) int pageNumber,
 			SearchForm input, ModelAndView mav ) {
-		search.divade2ndPageAndBeyond(pageNumber, input, mav);
+		search.moveOnNextPage(pageNumber, input, mav);
 		return mav;
 	}
 
 	/**登録ページへの遷移*/
 	@RequestMapping(value = "/regist", method = RequestMethod.GET)
 	public ModelAndView regist(ModelAndView mav) {
-
-		mav.addObject("msg", MessageService.REGIST_NEW);
+		List<String> message = new ArrayList<>();
+		message.add(MessageService.REGIST_NEW);
+		mav.addObject("msg", message);
+		mav.setViewName("/regist");
 		return mav;
 	}
 
 	/**登録ロジックを呼び出して登録を行う*/
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView regist(RegistForm input, ModelAndView mav) {
-
 		regist.regist(input, mav);
 		return mav;
 	}
-
-
 
 	/**更新ページへの遷移*/
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public ModelAndView update(ModelAndView mav, @RequestParam(value = "id", required = true) int id,
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber) {
-		// 次の画面に引き継ぐパラメータをキーとバリューの形式で渡す。
-		// したの例はバリューにString型の文字列を渡しているが、別にオブジェクト型でもOK
-
 		update.updateInIt(id, name, phoneNumber, mav);
 		mav.setViewName("/update");
 		return mav;
@@ -91,7 +98,6 @@ public class PhoneBookController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(DeleteForm input, ModelAndView mav) {
 		delete.delete(input, mav);
-
-		return search(new SearchForm(), mav);
+		return mav;
 	}
 }

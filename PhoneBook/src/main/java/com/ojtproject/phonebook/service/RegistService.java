@@ -1,6 +1,5 @@
-package com.ojtproject.phonebook.service;
+	package com.ojtproject.phonebook.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,40 +27,21 @@ public class RegistService {
 		String identificationCode = input.getIdentificationCode();
 		String phoneNumber = areaCode + "-" + cityCode + "-" + identificationCode;
 
-		boolean isCorrectName = ValidationUtil.validateName(name);
-		boolean isCorrectCodeByOneBox = ValidationUtil.validateOneBox(areaCode, cityCode, identificationCode);
-		boolean isCorrectPhoneNumber = ValidationUtil.validateTotalBoxes(areaCode, cityCode, identificationCode);
+		List<String> message = ValidationUtil.validateName(name);
+		message.addAll(ValidationUtil.validateOneBox(areaCode, cityCode, identificationCode));
+		message.addAll(ValidationUtil.validateTotalBoxes(areaCode, cityCode, identificationCode));
 
-		if (!isCorrectName && (!isCorrectCodeByOneBox || !isCorrectPhoneNumber)) {
-			List<String> errorMessage = new ArrayList<>();
-			errorMessage.add(MessageService.NAME_LIMIT);
-			errorMessage.add(MessageService.PHONENUMBER_FAULT);
-			mav.addObject("msg", errorMessage);
-
+		if(!message.isEmpty()) {
 			mav.addObject("name", name);
 			mav.addObject("areaCode", areaCode);
 			mav.addObject("cityCode", cityCode);
 			mav.addObject("identificationCode", identificationCode);
-			return;
-		} else if (!isCorrectCodeByOneBox || !isCorrectPhoneNumber) {
-			mav.addObject("msg", MessageService.PHONENUMBER_FAULT);
-			mav.addObject("name", name);
-			mav.addObject("areaCode", areaCode);
-			mav.addObject("cityCode", cityCode);
-			mav.addObject("identificationCode", identificationCode);
-			return;
-		} else if (!isCorrectName) {
-			mav.addObject("msg", MessageService.NAME_LIMIT);
-			mav.addObject("name", name);
-			mav.addObject("areaCode", areaCode);
-			mav.addObject("cityCode", cityCode);
-			mav.addObject("identificationCode", identificationCode);
+			mav.addObject("msg", message);
 			return;
 		}
 
 		phoneBookRepository.regist(name, phoneNumber);
 		registMsg(name, phoneNumber, mav);
-
 	}
 
 	private static void registMsg(String inputedName, String inputedPhoneNumber, ModelAndView mav) {

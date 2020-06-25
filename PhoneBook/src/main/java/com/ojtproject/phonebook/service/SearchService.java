@@ -28,55 +28,30 @@ public class SearchService {
 
 	/**入力された名前と電話帳リストにある名前を比較して合致するものをListに格納するメソッド*/
 	public void search(SearchForm input, ModelAndView mav) {
+
 		List<PhoneBookEntity> phoneBookList = null;
 		String keyword = input.getKeyword(); //入力された名前を取得
-
-		List<SearchResultForm> searchList = new ArrayList<>();
-		if (keyword == null) {
-			phoneBookList = phoneBookRepository.findAll();
-		} else if ("".equals(keyword)) {
-			// 全件検索
-			phoneBookList = phoneBookRepository.findAll();
-		} else if (!ValidationUtil.validateName(keyword)) {
+		if(!ValidationUtil.validateKeyword(keyword).isEmpty()) {
 			// 入力値が不正な場合全件表示
 			phoneBookList = phoneBookRepository.findAll();
 
-		} else if (!"".equals(keyword)) {
+		} else {
 			// キーワード検索
 			phoneBookList = phoneBookRepository.find(keyword);
 		}
-
 		// セッションにphoneBookListを格納
 		session.setAttribute("phoneBookList", phoneBookList);
 
-		int numOfPhoneBookList = phoneBookList.size();
-		for (int i = 0; i < Math.min(numOfPhoneBookList, 15); i++) {
-			PhoneBookEntity entity = phoneBookList.get(i);
-			SearchResultForm sf = new SearchResultForm();
-			sf.setId(entity.getId());
-			sf.setName(entity.getName());
-			sf.setPhoneNumber(entity.getPhoneNumber());
-			searchList.add(sf);
-		}
 		int pageNumber = 1;
-		mav.addObject("searchList", searchList);
 		mav.addObject("pageNumber", pageNumber);
-		mav.addObject("keyword", keyword);
-		mav.setViewName("search");
-		SearchService.searchMsg(phoneBookList, searchList, keyword, mav);
+		createPages(pageNumber, input, mav);
 	}
 
-	public void divade2ndPageAndBeyond(
-			int pageNumber,
-			SearchForm input, ModelAndView mav) {
-
-		// セッションからphoneBookListを読み込み
+	public void createPages(int pageNumber, SearchForm input, ModelAndView mav) {
 		List<PhoneBookEntity> phoneBookList = (ArrayList<PhoneBookEntity>) session.getAttribute("phoneBookList");
-		int tailIndex = phoneBookList.size() - 1;
-		pageNumber++;
 		List<SearchResultForm> searchList = new ArrayList<>();
-
-		for (int i = 15 * (pageNumber - 1); i < Math.min(15 * pageNumber, tailIndex); i++) {
+		int len = phoneBookList.size();
+		for (int i = 15 * (pageNumber - 1); i < Math.min((15 * pageNumber), len); i++) {
 			PhoneBookEntity entity = phoneBookList.get(i);
 			SearchResultForm sf = new SearchResultForm();
 			sf.setId(entity.getId());
@@ -84,28 +59,45 @@ public class SearchService {
 			sf.setPhoneNumber(entity.getPhoneNumber());
 			searchList.add(sf);
 		}
+		boolean existsNext = len > 15 * pageNumber ? true: false;
+
+		mav.addObject("existsNext", existsNext);
 		mav.addObject("searchList", searchList);
-		mav.addObject("pageNumber", pageNumber);
-		mav.addObject("keyword");
-		SearchService.searchMsg(phoneBookList, searchList, input.getKeyword(), mav);
+		mav.addObject("keyword", input.getKeyword());
+		mav.setViewName("search");
+		searchMsg(searchList, pageNumber, input.getKeyword(), mav);
 	}
 
-	private static void searchMsg(List<PhoneBookEntity> phoneBookList, List<SearchResultForm> searchList,
-			String inputName, ModelAndView mav) {
+	public void returnPrevPage(int pageNumber, SearchForm input, ModelAndView mav) {
 
-		if (inputName == null) {
-			mav.addObject("msg", phoneBookList.size() + MessageService.SEARCH_HIT_COUNT
-					+ searchList.size() + MessageService.SEARCH_HIT_DISPLAYEDCOUNT);
-		} else if ("".equals(inputName)) {
-			mav.addObject("msg", phoneBookList.size() + MessageService.SEARCH_HIT_COUNT
-					+ searchList.size() + MessageService.SEARCH_HIT_DISPLAYEDCOUNT);
-		} else if (!ValidationUtil.validateName(inputName)) {
-			mav.addObject("msg", MessageService.SEARCH_LIMIT);
-		} else if (searchList.size() == 0) {
-			mav.addObject("msg", MessageService.SEARCH_NOT_HIT);
-		} else {
-			mav.addObject("msg", searchList.size() + MessageService.SEARCH_HIT_COUNT
-					+ searchList.size() + MessageService.SEARCH_HIT_DISPLAYEDCOUNT);
+		mav.addObject("pageNumber", --pageNumber);
+		createPages(pageNumber, input, mav);
+
+	}
+
+	public void moveOnNextPage(int pageNumber, SearchForm input, ModelAndView mav) {
+
+		mav.addObject("pageNumber", ++pageNumber);
+		createPages(pageNumber, input, mav);
+
+	}
+
+	private void searchMsg(List<SearchResultForm> searchList, int pageNumber,
+			String keyword, ModelAndView mav) {
+		List<PhoneBookEntity> phoneBookList = (ArrayList<PhoneBookEntity>) session.getAttribute("phoneBookList");
+
+		List<String> msg = ValidationUtil.validateKeyword(keyword);
+		if(msg.isEmpty()) {
+			msg.add(keyword + "を検索します。");
 		}
+
+		if (searchList.size() == 0) {
+			msg.add(MessageService.SEARCH_NOT_HIT);
+		} else {
+			msg.add(phoneBookList.size() + MessageService.SEARCH_HIT_COUNT
+					+ (searchList.size() + 15 * (pageNumber - 1)) + MessageService.SEARCH_HIT_DISPLAYEDCOUNT);
+		}
+
+		mav.addObject("msg", msg);
 	}
 }

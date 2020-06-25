@@ -20,7 +20,7 @@ public class MessageService {
 	/**検索にヒットした際に出すメッセージ*/
 	public static final String SEARCH_HIT_COUNT = "件中";
 
-	public static final String SEARCH_HIT_DISPLAYEDCOUNT = "件を表示";
+	public static final String SEARCH_HIT_DISPLAYEDCOUNT = "件目までを表示";
 
 	/**検索にヒットした際に出すメッセージ*/
 	public static final String SEARCH_NOT_HIT = "入力された名前はありません。";

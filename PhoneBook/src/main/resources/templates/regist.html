@@ -13,31 +13,32 @@
 		<h1>電話帳</h1>
 	</div>
 
-	<span th:text="${msg}"></span>
+	<table id = "message" border = "0">
+		<tr th:each="word : ${msg}">
+			<td th:text = "${word}"></td>
+		</tr>
+	</table>
 
-	<form action="/regist" th:action="@{/regist}"
-		onsubmit="return submitChk()" th:object="${message}" method="post">
+	<form th:action="@{/regist}" onsubmit="return submitChk()" th:object="${message}" method="post">
 		<div id="wrapper" style="margin-top: 10px;">
 			<div class="txt">
 
-				<span>名前：</span> <input type="text" name="name" class="nameField"
-					th:value="${name}" style="width: 210px; height: 20px;" /> <br>
+				<span>名前　　：</span>
+				<input type="text" name="name" th:value="${name}" style="width: 210px; height: 20px;" />
+				<br>
 				<div class="phoneNum">
-					<span>電話番号：</span>
-					<div class="phoneField">
-						<input type="text" name="areaCode" th:value="${areaCode}"
-							style="width: 60px; height: 20px;" /> <input type="text"
-							name="cityCode" th:value="${cityCode}"
-							style="width: 60px; height: 20px;" /> <input type="text"
-							name="identificationCode" th:value="${identificationCode}"
-							style="width: 60px; height: 20px;" />
-					</div>
+				<span>電話番号：</span>
+				<div>
+					<input type="text" name="areaCode" th:value="${areaCode}" style="width: 60px; height: 20px;" />
+					<input type="text" name="cityCode" th:value="${cityCode}" style="width: 60px; height: 20px;" />
+					<input type="text" name="identificationCode" th:value="${identificationCode}" style="width: 60px; height: 20px;" />
+				</div>
 				</div>
 				<input type="submit" class="button_regist" value="登録" />
 			</div>
 		</div>
 	</form>
-	<form action="/" th:action="@{/}" method="get">
+	<form th:action="@{/}" method="get">
 		<input type="submit" name="return" class="return" value="検索画面に戻る" />
 	</form>
 

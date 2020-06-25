@@ -29,7 +29,9 @@ public class UpdateService {
 				String cityCode = code[1];
 				String identificationCode = code[2];
 
-				mav.addObject("msg", name + MessageService.EDIT_ACCOUNT);
+				List<String> msg = new ArrayList<>();
+				msg.add(name + MessageService.EDIT_ACCOUNT);
+				mav.addObject("msg", msg);
 				mav.addObject("id", id);
 				mav.addObject("name", name);
 				mav.addObject("areaCode", areaCode);
@@ -49,46 +51,29 @@ public class UpdateService {
 		String identificationCode = input.getIdentificationCode();
 		String phoneNumber = areaCode + "-" + cityCode + "-" + identificationCode; //入力された電話番号を取得
 
-		boolean isCorrectName = ValidationUtil.validateName(name);
-		boolean isCorrectCodeByOneBox = ValidationUtil.validateOneBox(areaCode, cityCode, identificationCode);
-		boolean isCorrectPhoneNumber = ValidationUtil.validateTotalBoxes(areaCode, cityCode, identificationCode);
+		List<String> message = ValidationUtil.validateName(name);
+		message.addAll(ValidationUtil.validateOneBox(areaCode, cityCode, identificationCode));
+		message.addAll(ValidationUtil.validateTotalBoxes(areaCode, cityCode, identificationCode));
 
-		if (!isCorrectName && (!isCorrectCodeByOneBox || !isCorrectPhoneNumber)) {
-			List<String> message = new ArrayList<>();
-			message.add(MessageService.NAME_LIMIT);
-			message.add(MessageService.PHONENUMBER_FAULT);
+		if(!message.isEmpty()) {
+			mav.addObject("id", id);
+			mav.addObject("name", name);
+			mav.addObject("areaCode", areaCode);
+			mav.addObject("cityCode", cityCode);
+			mav.addObject("identificationCode", identificationCode);
 			mav.addObject("msg", message);
-
-			mav.addObject("name", name);
-			mav.addObject("areaCode", areaCode);
-			mav.addObject("cityCode", cityCode);
-			mav.addObject("identificationCode", identificationCode);
-
-			return;
-		} else if (!isCorrectCodeByOneBox || !isCorrectPhoneNumber) {
-			mav.addObject("msg", MessageService.PHONENUMBER_FAULT);
-			mav.addObject("name", name);
-			mav.addObject("areaCode", areaCode);
-			mav.addObject("cityCode", cityCode);
-			mav.addObject("identificationCode", identificationCode);
-			return;
-		} else if (!ValidationUtil.validateName(name)) {
-			mav.addObject("msg", MessageService.NAME_LIMIT);
-			mav.addObject("name", name);
-			mav.addObject("areaCode", areaCode);
-			mav.addObject("cityCode", cityCode);
-			mav.addObject("identificationCode", identificationCode);
 			return;
 		}
-
-		phoneBookRepository.update(id, name, phoneNumber);
-
 		mav.addObject("id", id);
+		phoneBookRepository.update(id, name, phoneNumber);
 		updateMsg(name, phoneNumber, mav);
 	}
 
 	private static void updateMsg(String inputedName, String inputedPhoneNumber, ModelAndView mav) {
-		mav.addObject("msg", inputedName + MessageService.EDIT_SUCCESS);
+
+		List<String> message = new ArrayList<>();
+		message.add(inputedName + MessageService.EDIT_SUCCESS);
+		mav.addObject("msg", message);
 
 	}
 
