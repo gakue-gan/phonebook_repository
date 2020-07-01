@@ -23,7 +23,7 @@ public class MessageService {
 	public static final String SEARCH_HIT_DISPLAYEDCOUNT = "件目までを表示";
 
 	/**検索にヒットした際に出すメッセージ*/
-	public static final String SEARCH_NOT_HIT = "入力された名前はありません。";
+	public static final String SEARCH_NOT_HIT = "該当データはありません。";
 
 	/**入力した値が空の場合に出すメッセージ*/
 	public static final String INPUT_EMPTY = "名前または電話番号を入力してください。";

@@ -35,13 +35,17 @@ public class PhoneBookController {
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView index(ModelAndView mav) {
-		return search(new SearchForm(), mav);
+		search.search(null, mav);
+		search.createPages(1, null, mav);
+		return mav;
 	}
 
 	/**検索ロジックを呼び出して検索ページへ遷移*/
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ModelAndView search(SearchForm input, ModelAndView mav) {
-		search.search(input, mav);
+		String keyword = input.getKeyword();
+		search.search(keyword, mav);
+		search.createPages(1, keyword, mav);
 		return mav;
 	}
 
@@ -49,14 +53,16 @@ public class PhoneBookController {
 	@RequestMapping(value = "/prevPaging", method = RequestMethod.GET)
 	public ModelAndView prevPaging(@RequestParam(value = "pageNumber", required = true) int pageNumber,
 			SearchForm input, ModelAndView mav ) {
-		search.returnPrevPage(pageNumber, input, mav);
+		String keyword = input.getKeyword();
+		search.createPages(--pageNumber, keyword, mav);
 		return mav;
 	}
 	/**次ページへ遷移*/
 	@RequestMapping(value = "/nextPaging", method = RequestMethod.GET)
 	public ModelAndView nextPaging(@RequestParam(value = "pageNumber", required = true) int pageNumber,
 			SearchForm input, ModelAndView mav ) {
-		search.moveOnNextPage(pageNumber, input, mav);
+		String keyword = input.getKeyword();
+		search.createPages(++pageNumber, keyword, mav);
 		return mav;
 	}
 
@@ -96,8 +102,10 @@ public class PhoneBookController {
 
 	/**削除ロジックを呼び出して削除を行う*/
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(DeleteForm input, ModelAndView mav) {
-		delete.delete(input, mav);
+	public ModelAndView delete(DeleteForm input,
+			@RequestParam(value = "pageNumber", required = true) int pageNumber,
+			ModelAndView mav) {
+		delete.delete(input, pageNumber, mav);
 		return mav;
 	}
 }

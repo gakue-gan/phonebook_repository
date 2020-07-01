@@ -1,8 +1,15 @@
 package com.ojtproject.phonebook;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
+
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.ojtproject.phonebook.util.ValidationUtil;
 
 @SpringBootTest
 class PhoneBookApplicationTests {
@@ -19,163 +26,287 @@ class PhoneBookApplicationTests {
 
 	@Test
 	public void validateNameTest() {
-		/*
-		String name = "";
-		boolean isCorrect = ValidationUtil.validateName(name);
-		assertThat(isCorrect, is(false));
 
-		name = null;
-		isCorrect = ValidationUtil.validateName(name);
-		assertThat(isCorrect, is(false));
+		String name = null;
+		List<String> isCorrect = ValidationUtil.validateName(name);
+		String msg = "名前が未入力です。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		name = "藤井";
+		name = "";
 		isCorrect = ValidationUtil.validateName(name);
-		assertThat(isCorrect, is(true));
-
-		name = "12345678901234567890";
-		isCorrect = ValidationUtil.validateName(name);
-		assertThat(isCorrect, is(true));
-
-		name = "1234567890123456789";
-		isCorrect = ValidationUtil.validateName(name);
-		assertThat(isCorrect, is(true));
+		msg = "名前が未入力です。";
+		assertThat(isCorrect.get(0), is(msg));
 
 		name = "123456789012345678901";
 		isCorrect = ValidationUtil.validateName(name);
-		assertThat(isCorrect, is(false));
+		msg = "名前は20文字以内で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		name = " 藤井";
+		name = " ";
 		isCorrect = ValidationUtil.validateName(name);
-		assertThat(isCorrect, is(false));
-		*/
+		msg = "名前に空白を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		name = "　";
+		isCorrect = ValidationUtil.validateName(name);
+		msg = "名前に空白を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		name = "あいうえお";
+		isCorrect = ValidationUtil.validateName(name);
+		assertThat(isCorrect.isEmpty(), is(true));
+
+		name = "12345678901234567890";
+		isCorrect = ValidationUtil.validateName(name);
+		assertThat(isCorrect.isEmpty(), is(true));
 
 	}
 
 	@Test
 	public void validateOneBoxTest() {
-		/*
+
 		String firstBox = "";
-		boolean isCorrect = ValidationUtil.validateOneBox(firstBox);
-		assertThat(isCorrect, is(false));
+		String secondBox = "1111";
+		String thirdBox = "1111";
+		List<String> isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		String msg = "市外局番が未入力です。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "1111";
+		secondBox = "";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市内局番が未入力です。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "1111";
+		secondBox = "1111";
+		thirdBox = "";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "認識番号が未入力です。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "1111";
+		secondBox = "1111";
+		thirdBox = "1111";
+		String forthBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox, forthBox);
+		assertThat(isCorrect.isEmpty(), is(true));
+
+		firstBox = "aaaa";
+		secondBox = "1111";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市外局番に文字を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "1111";
+		secondBox = "aaaa";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市内局番に文字を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "1111";
+		secondBox = "1111";
+		thirdBox = "aaaa";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "認識番号に文字を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "11 1";
+		secondBox = "1111";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市外局番に空白を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "1111";
+		secondBox = "11 1";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市内局番に空白を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "1111";
+		secondBox = "1111";
+		thirdBox = "11 1";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "認識番号に空白を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "11　1";
+		secondBox = "1111";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市外局番に空白を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "1111";
+		secondBox = "11　1";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市内局番に空白を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		firstBox = "1111";
+		secondBox = "1111";
+		thirdBox = "11　1";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "認識番号に空白を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = null;
-		isCorrect = ValidationUtil.validateOneBox(firstBox);
-		assertThat(isCorrect, is(false));
+		secondBox = "1111";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市外局番が未入力です。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		firstBox = "012";
-		isCorrect = ValidationUtil.validateOneBox(firstBox);
-		assertThat(isCorrect, is(true));
+		firstBox = "1111";
+		secondBox = null;
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市内局番が未入力です。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		firstBox = "01";
-		isCorrect = ValidationUtil.validateOneBox(firstBox);
-		assertThat(isCorrect, is(false));
+		firstBox = "1111";
+		secondBox = "1111";
+		thirdBox = null;
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "認識番号が未入力です。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		firstBox = "0123";
-		isCorrect = ValidationUtil.validateOneBox(firstBox);
-		assertThat(isCorrect, is(true));
+		firstBox = "11";
+		secondBox = "1111";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市外局番は3，4文字で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		firstBox = "01234";
-		isCorrect = ValidationUtil.validateOneBox(firstBox);
-		assertThat(isCorrect, is(false));
+		firstBox = "1111";
+		secondBox = "11";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市内局番は3，4文字で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		firstBox = "藤井";
-		isCorrect = ValidationUtil.validateOneBox(firstBox);
-		assertThat(isCorrect, is(false));
+		firstBox = "1111";
+		secondBox = "1111";
+		thirdBox = "11";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "認識番号は3，4文字で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		firstBox = "０１２３";
-		isCorrect = ValidationUtil.validateOneBox(firstBox);
-		assertThat(isCorrect, is(true));
+		firstBox = "11111";
+		secondBox = "1111";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市外局番は3，4文字で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		firstBox = "3 4";
-		isCorrect = ValidationUtil.validateOneBox(firstBox);
-		assertThat(isCorrect, is(false));
+		firstBox = "1111";
+		secondBox = "11111";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "市内局番は3，4文字で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		firstBox = "2　3";
-		isCorrect = ValidationUtil.validateOneBox(firstBox);
-		assertThat(isCorrect, is(false));
+		firstBox = "1111";
+		secondBox = "1111";
+		thirdBox = "11111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		msg = "認識番号は3，4文字で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
 
-		firstBox = "012";
-		String secondBox = "0123";
-		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox);
-		assertThat(isCorrect, is(true));
+		firstBox = "1111";
+		secondBox = "1111";
+		thirdBox = "1111";
+		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
+		assertThat(isCorrect.isEmpty(), is(true));
 
-		firstBox = "012";
-		secondBox = "01235";
-		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox);
-		assertThat(isCorrect, is(false));
-
-		firstBox = "012";
-		secondBox = "aaaa";
-		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox);
-		assertThat(isCorrect, is(false));
-		*/
 	}
 
 	@Test
 	public void validateTotalBoxesTest() {
-		/*
+
 		String firstBox = "";
 		String secondBox = "";
 		String thirdBox = "";
-		boolean isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
-		assertThat(isCorrect, is(false));
+		List<String> isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
+		String msg = "電話番号は10,11文字で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "111";
 		secondBox = "111";
-		thirdBox = "1111";
+		thirdBox = "111";
 		isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
-		assertThat(isCorrect, is(true));
-
-		firstBox = null;
-		secondBox = null;
-		thirdBox = null;
-		isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
-		assertThat(isCorrect, is(false));
-
-		firstBox = "111";
-		secondBox = "1114";
-		thirdBox = "1114";
-		isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
-		assertThat(isCorrect, is(true));
+		msg = "電話番号は10,11文字で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "1111";
-		secondBox = "1114";
-		thirdBox = "1114";
+		secondBox = "1111";
+		thirdBox = "1111";
 		isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
-		assertThat(isCorrect, is(false));
-
-		firstBox = "111";
-		secondBox = "111";
-		thirdBox = "111";
-		isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
-		assertThat(isCorrect, is(false));
-
-		firstBox = "aaaa";
-		secondBox = "111";
-		thirdBox = "111";
-		isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
-		assertThat(isCorrect, is(false));
-
-		firstBox = " ";
-		secondBox = "111";
-		thirdBox = "11111";
-		isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
-		assertThat(isCorrect, is(false));
+		msg = "電話番号は10,11文字で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = null;
-		secondBox ="11111";
+		secondBox = "11111";
 		thirdBox = "11111";
 		isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
-		assertThat(isCorrect, is(false));
+		assertThat(isCorrect.isEmpty(), is(true));
 
-		firstBox = "111 ";
-		secondBox ="1111";
-		thirdBox = "111";
+		firstBox = "111";
+		secondBox = "1111";
+		thirdBox = "1111";
 		isCorrect = ValidationUtil.validateTotalBoxes(firstBox, secondBox ,thirdBox);
-		assertThat(isCorrect, is(false));
+		assertThat(isCorrect.isEmpty(), is(true));
 
-		 */
+	}
 
+	@Test
+	public void validateKeywordTest() {
+		String keyword = null;
+		List<String> isCorrect = ValidationUtil.validateKeyword(keyword);
+		String msg = "全件を表示します。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		keyword = "";
+		isCorrect = ValidationUtil.validateKeyword(keyword);
+		msg = "全件を表示します。";
+		assertThat(isCorrect.get(0), is(msg));
+
+		keyword = "123456789012345678901";
+		isCorrect = ValidationUtil.validateKeyword(keyword);
+		msg = "検索欄は20文字以内で入力してください。";
+		assertThat(isCorrect.get(0), is(msg));
+		msg = "全件を表示します。";
+		assertThat(isCorrect.get(1), is(msg));
+
+		keyword = " ";
+		isCorrect = ValidationUtil.validateKeyword(keyword);
+		msg = "検索欄に空白を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+		msg = "全件を表示します。";
+		assertThat(isCorrect.get(1), is(msg));
+
+		keyword = "　";
+		isCorrect = ValidationUtil.validateKeyword(keyword);
+		msg = "検索欄に空白を入力しないでください。";
+		assertThat(isCorrect.get(0), is(msg));
+		msg = "全件を表示します。";
+		assertThat(isCorrect.get(1), is(msg));
+
+		keyword = "あいうえお";
+		isCorrect = ValidationUtil.validateKeyword(keyword);
+		assertThat(isCorrect.isEmpty(), is(true));
+	}
+
+	@Test
+	public void validationUtilTest() {
+		ValidationUtil vu = new ValidationUtil();
+		assertThat(vu, is(vu));
 	}
 
 }

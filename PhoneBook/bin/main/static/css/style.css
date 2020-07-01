@@ -36,67 +36,75 @@ h1 {
 	text-align: right;
 }
 
-.button_search {
+.button {
 	position: relative;
 	display: inline-block;
 	font-weight: bold;
 	padding: 1em 0.5em;
 	text-decoration: none;
 	color: #FFF;
+	transition: .4s;
+	opacity: 0.8;
+}
+
+.button:hover {
+  opacity: 1;
+}
+
+
+.search {
 	background: #ff1694;
-	transition: .4s;
 }
 
-.button_regist {
-	position: relative;
-	display: inline-block;
-	font-weight: bold;
-	padding: 1em 0.5em;
-	text-decoration: none;
-	color: #FFF;
+.regist {
 	background: #498eaf;
-	transition: .4s;
 }
 
-.button_regist_new {
-	position: relative;
-	right: 10px;
-	display: inline-block;
-	font-weight: bold;
-	padding: 1em 0.5em;
-	text-decoration: none;
-	color: #FFF;
-	background: #498eaf;
-	transition: .4s;
+.execute {
+	text-align: center;
+	margin: 10px 0 10px 0;
 }
 
-.button_update {
+.execute_btn {
 	position: relative;
 	display: inline-block;
 	font-weight: bold;
-	padding: 1em 0.5em;
+	padding: 8px 24px;
 	text-decoration: none;
 	color: #FFF;
+	transition: .4s;
+	opacity: 0.8;
+}
+
+.update {
 	background: #85cfb4;
-	transition: .4s;
+}
+.update_new {
+	text-align: center;
+	background: #85cfb4;
 }
 
-.button_delete {
-	position: relative;
-	display: inline-block;
-	font-weight: bold;
-	padding: 1em 0.5em;
-	text-decoration: none;
-	color: #FFF;
+.delete {
 	background: #ffb312;
-	transition: .4s;
 }
 
 .inline-block-1 {
 	display: inline-block; /* インラインブロック要素にする */
 }
-.inline-block-2 {
+.paging {
 	display: inline-block; /* インラインブロック要素にする */
+}
+
+.prev {
+	text-align: left;
+}
+.next {
+	text-align: right;
+}
+
+.wrapper-paging {
+	margin: 0 auto;
+	width: 300px;
 }
 
 #wrapper {
@@ -106,7 +114,7 @@ h1 {
 }
 
 .txt {
-	width:300px;
+	width:400px;
 	display: inline-block;
 	text-align: left;
 }
