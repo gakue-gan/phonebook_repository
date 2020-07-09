@@ -3,15 +3,23 @@ package com.ojtproject.phonebook.form;
 public class UpdateForm {
 
 	private int id;
-
+	private String name;
 	private String areaCode;
 	private String cityCode;
-	private String name;
 	private String identificationCode;
+	private String address;
 
 
 	public int getId() {
 		return id;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public void setId(int id) {

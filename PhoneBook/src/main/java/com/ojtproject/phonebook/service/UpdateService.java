@@ -19,12 +19,11 @@ public class UpdateService {
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
 
-	public void updateInIt (int id, String name, String phoneNumber, ModelAndView mav) {
+	public void updateInIt (int id, String name, String phoneNumber, String address,  ModelAndView mav) {
 		// 次の画面に引き継ぐパラメータをキーとバリューの形式で渡す。
 				// したの例はバリューにString型の文字列を渡しているが、別にオブジェクト型でもOK
 
 				String[] code = phoneNumber.split("-", 0);
-
 				String areaCode = code[0];
 				String cityCode = code[1];
 				String identificationCode = code[2];
@@ -37,6 +36,7 @@ public class UpdateService {
 				mav.addObject("areaCode", areaCode);
 				mav.addObject("cityCode", cityCode);
 				mav.addObject("identificationCode", identificationCode);
+				mav.addObject("address", address);
 				// 次に遷移するHTMLの名前を指定する
 	}
 
@@ -51,9 +51,12 @@ public class UpdateService {
 		String identificationCode = input.getIdentificationCode();
 		String phoneNumber = areaCode + "-" + cityCode + "-" + identificationCode; //入力された電話番号を取得
 
+		String address = input.getAddress();
+
 		List<String> message = ValidationUtil.validateName(name);
 		message.addAll(ValidationUtil.validateOneBox(areaCode, cityCode, identificationCode));
 		message.addAll(ValidationUtil.validateTotalBoxes(areaCode, cityCode, identificationCode));
+		message.addAll(ValidationUtil.validateAddress(address));
 
 		if(!message.isEmpty()) {
 			mav.addObject("id", id);
@@ -61,11 +64,12 @@ public class UpdateService {
 			mav.addObject("areaCode", areaCode);
 			mav.addObject("cityCode", cityCode);
 			mav.addObject("identificationCode", identificationCode);
+			mav.addObject("address", address);
 			mav.addObject("msg", message);
 			return;
 		}
 		mav.addObject("id", id);
-		phoneBookRepository.update(id, name, phoneNumber);
+		phoneBookRepository.update(id, name, phoneNumber, address);
 		updateMsg(name, phoneNumber, mav);
 	}
 

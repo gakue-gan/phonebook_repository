@@ -19,6 +19,7 @@ import com.ojtproject.phonebook.service.MessageService;
 import com.ojtproject.phonebook.service.RegistService;
 import com.ojtproject.phonebook.service.SearchService;
 import com.ojtproject.phonebook.service.UpdateService;
+import com.ojtproject.phonebook.util.PrefecturesUtil;
 
 @Controller
 public class PhoneBookController {
@@ -30,6 +31,7 @@ public class PhoneBookController {
 	private UpdateService update;
 	@Autowired
 	private DeleteService delete;
+
 
 
 	/**トップページを表示*/
@@ -72,6 +74,7 @@ public class PhoneBookController {
 		List<String> message = new ArrayList<>();
 		message.add(MessageService.REGIST_NEW);
 		mav.addObject("msg", message);
+		mav.addObject("prefectures", PrefecturesUtil.getPrefecturesMap());
 		mav.setViewName("/regist");
 		return mav;
 	}
@@ -80,6 +83,7 @@ public class PhoneBookController {
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView regist(RegistForm input, ModelAndView mav) {
 		regist.regist(input, mav);
+		mav.addObject("prefectures", PrefecturesUtil.getPrefecturesMap());
 		return mav;
 	}
 
@@ -87,8 +91,9 @@ public class PhoneBookController {
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public ModelAndView update(ModelAndView mav, @RequestParam(value = "id", required = true) int id,
 			@RequestParam(value = "name", required = true) String name,
-			@RequestParam(value = "phoneNumber", required = true) String phoneNumber) {
-		update.updateInIt(id, name, phoneNumber, mav);
+			@RequestParam(value = "phoneNumber", required = true) String phoneNumber,
+			@RequestParam(value = "address", required = true) String address) {
+		update.updateInIt(id, name, phoneNumber, address, mav);
 		mav.setViewName("/update");
 		return mav;
 	}

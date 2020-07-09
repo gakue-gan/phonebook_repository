@@ -3,10 +3,19 @@ package com.ojtproject.phonebook.form;
 public class RegistForm {
 	/**登録キーワード*/
 
+	private String name;
 	private String areaCode;
 	private String cityCode;
-	private String name;
 	private String identificationCode;
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public String getAreaCode() {
 		return areaCode;

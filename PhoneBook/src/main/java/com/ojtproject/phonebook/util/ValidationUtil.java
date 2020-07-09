@@ -38,8 +38,8 @@ public class ValidationUtil {
 			}
 
 			int length = phoneCode.length();
-			if (length <= 2 || 5 <= length) {
-				message.add(str + "は3，4文字で入力してください。");
+			if (length <= 1 || 5 <= length) {
+				message.add(str + "は2～4文字で入力してください。");
 				continue;
 			}
 
@@ -92,6 +92,20 @@ public class ValidationUtil {
 		if (inputedName.contains(" ") || inputedName.contains("　"))
 			message.add("名前に空白を入力しないでください。");
 
+		Pattern p = Pattern.compile("^[!\"#$%&'()*+,-./:;<=>?@[¥]^_`{|}~！”＃＄％＆’（）＊＋，ー．／：；＜＝＞？＠［¥］＾＿‘｛｜｝～]*$");
+		Matcher m = p.matcher(inputedName);
+		if(m.matches())
+			message.add("名前に入力できない記号があります。");
+
+		return message;
+	}
+
+	// アドレス入力チェック処理
+	public static List<String> validateAddress(String address) {
+		List<String> message = new ArrayList<>();
+		if (address == null || "".equals(address)) {
+			message.add("居住都道府県を選択してください。");
+		}
 		return message;
 	}
 
@@ -112,7 +126,13 @@ public class ValidationUtil {
 		if (keyword.contains(" ") || keyword.contains("　"))
 			message.add("検索欄に空白を入力しないでください。");
 
-		if(len == 0 || len >= 21 || keyword.contains(" ") || keyword.contains("　"))
+		Pattern p = Pattern.compile("^[!\"#$%&'()*+,-./:;<=>?@[¥]^_`{|}~！”＃＄％＆’（）＊＋，ー．／：；＜＝＞？＠［¥］＾＿‘｛｜｝～]*$");
+		Matcher m = p.matcher(keyword);
+		if(m.matches()) {
+			message.add("検索欄に入力できない記号があります。");
+		}
+
+		if(len == 0 || len >= 21 || keyword.contains(" ") || keyword.contains("　")|| m.matches())
 			message.add("全件を表示します。");
 
 		return message;

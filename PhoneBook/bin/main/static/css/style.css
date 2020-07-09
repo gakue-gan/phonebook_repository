@@ -69,11 +69,15 @@ h1 {
 	position: relative;
 	display: inline-block;
 	font-weight: bold;
-	padding: 8px 24px;
+	padding: 8px 50px;
 	text-decoration: none;
 	color: #FFF;
 	transition: .4s;
 	opacity: 0.8;
+}
+
+.execute_btn:hover{
+	opacity: 1;
 }
 
 .update {

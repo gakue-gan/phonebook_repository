@@ -7,32 +7,43 @@
 <title>電話帳アプリケーション</title>
 </head>
 <body>
-	<script type="text/javascript" src="js/submitChk.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
 
 	<div class="inline-block">
 		<h1>電話帳</h1>
 	</div>
 
-	<table id = "message" >
+	<table id="message">
 		<tr th:each="word : ${msg}">
-			<td th:text = "${word}"></td>
+			<td th:text="${word}"></td>
 		</tr>
 	</table>
 
-	<form th:action="@{/regist}" onsubmit="return submitChk()" th:object="${message}" method="post">
+	<form th:action="@{/regist}" onsubmit="return submitChk()"
+		th:object="${message}" method="post">
 		<div id="wrapper" style="margin-top: 10px;">
 			<div class="txt">
 
-				<span>名前　　：</span>
-				<input type="text" name="name" th:value="${name}" style="width: 210px; height: 20px;" />
-				<br>
+				<span>名前 ：</span> <input type="text" name="name" th:value="${name}"
+					style="width: 210px; height: 20px;" /> <br>
 				<div>
-				<span>電話番号：</span>
-					<input type="text" name="areaCode" th:value="${areaCode}" style="width: 60px; height: 20px;" />
-					<input type="text" name="cityCode" th:value="${cityCode}" style="width: 60px; height: 20px;" />
-					<input type="text" name="identificationCode" th:value="${identificationCode}" style="width: 60px; height: 20px;" />
+					<span>電話番号：</span> <input type="text" name="areaCode"
+						th:value="${areaCode}" style="width: 60px; height: 20px;" /> <input
+						type="text" name="cityCode" th:value="${cityCode}"
+						style="width: 60px; height: 20px;" /> <input type="text"
+						name="identificationCode" th:value="${identificationCode}"
+						style="width: 60px; height: 20px;" />
+					<div class="ui-body ui-body-a">
+						<span>都道府県：</span>
+						<select name="address" th:value="${address}">
+							<option value="">---</option>
+							<option th:each="prefecture :${prefectures}" th:value="${prefecture.key}" th:text = "${prefecture.value}"/>
+						</select>
+					</div>
 				</div>
-				<div class = "execute"><input type="submit" class="execute_btn regist" value="登録" /></div>
+				<div class="execute">
+					<input type="submit" class="execute_btn regist" value="登録" />
+				</div>
 			</div>
 		</div>
 	</form>

@@ -18,6 +18,7 @@ public class RegistService {
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
 
+
 	public void regist(RegistForm input, ModelAndView mav) {
 
 		String name = input.getName(); //入力された名前を取得
@@ -26,21 +27,25 @@ public class RegistService {
 		String cityCode = input.getCityCode();
 		String identificationCode = input.getIdentificationCode();
 		String phoneNumber = areaCode + "-" + cityCode + "-" + identificationCode;
+		String address = input.getAddress();
 
 		List<String> message = ValidationUtil.validateName(name);
 		message.addAll(ValidationUtil.validateOneBox(areaCode, cityCode, identificationCode));
 		message.addAll(ValidationUtil.validateTotalBoxes(areaCode, cityCode, identificationCode));
+		message.addAll(ValidationUtil.validateAddress(address));
+
 
 		if(!message.isEmpty()) {
 			mav.addObject("name", name);
 			mav.addObject("areaCode", areaCode);
 			mav.addObject("cityCode", cityCode);
 			mav.addObject("identificationCode", identificationCode);
+			mav.addObject("address", address);
 			mav.addObject("msg", message);
 			return;
 		}
 
-		phoneBookRepository.regist(name, phoneNumber);
+		phoneBookRepository.regist(name, phoneNumber, address);
 		registMsg(name, phoneNumber, mav);
 	}
 

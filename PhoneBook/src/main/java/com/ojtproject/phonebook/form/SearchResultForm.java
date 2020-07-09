@@ -7,6 +7,16 @@ public class SearchResultForm {
 	private String name;
 	/**検索で一致した電話番号*/
 	private String phoneNumber;
+	/**検索で一致した居住都道府県名*/
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public int getId() {
 		return id;

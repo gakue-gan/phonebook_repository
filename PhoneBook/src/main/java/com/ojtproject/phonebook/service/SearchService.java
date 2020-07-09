@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ojtproject.phonebook.dao.PhoneBookRepository;
-import com.ojtproject.phonebook.entity.PhoneBookEntity;
+import com.ojtproject.phonebook.entity.PhoneBookPh2Entity;
 import com.ojtproject.phonebook.form.SearchResultForm;
 import com.ojtproject.phonebook.util.ValidationUtil;
 
@@ -27,7 +27,7 @@ public class SearchService {
 
 	public void search(String keyword, ModelAndView mav) {
 
-		List<PhoneBookEntity> phoneBookList = null;
+		List<PhoneBookPh2Entity> phoneBookList = null;
 		if(!ValidationUtil.validateKeyword(keyword).isEmpty()) {
 			// 入力値が不正な場合全件表示
 			phoneBookList = phoneBookRepository.findAll();
@@ -43,16 +43,17 @@ public class SearchService {
 
 	public void createPages(int pageNumber, String keyword, ModelAndView mav) {
 
-		List<PhoneBookEntity> phoneBookList = (ArrayList<PhoneBookEntity>) session.getAttribute("phoneBookList");
+		List<PhoneBookPh2Entity> phoneBookList = (ArrayList<PhoneBookPh2Entity>) session.getAttribute("phoneBookList");
 		List<SearchResultForm> searchList = new ArrayList<>();
 
 		int len = phoneBookList.size();
 		for (int i = 15 * (pageNumber - 1); i < Math.min((15 * pageNumber), len); i++) {
-			PhoneBookEntity entity = phoneBookList.get(i);
+			PhoneBookPh2Entity entity = phoneBookList.get(i);
 			SearchResultForm sf = new SearchResultForm();
 			sf.setId(entity.getId());
 			sf.setName(entity.getName());
 			sf.setPhoneNumber(entity.getPhoneNumber());
+			sf.setAddress(entity.getAddress());
 			searchList.add(sf);
 		}
 
@@ -68,7 +69,7 @@ public class SearchService {
 
 	private void searchMsg(List<SearchResultForm> searchList, int pageNumber,
 			String keyword, ModelAndView mav) {
-		List<PhoneBookEntity> phoneBookList = (ArrayList<PhoneBookEntity>) session.getAttribute("phoneBookList");
+		List<PhoneBookPh2Entity> phoneBookList = (ArrayList<PhoneBookPh2Entity>) session.getAttribute("phoneBookList");
 
 		List<String> msg = new ArrayList<>();
 
