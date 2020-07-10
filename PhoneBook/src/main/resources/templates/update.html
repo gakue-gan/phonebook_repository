@@ -35,9 +35,7 @@
 						<!-- ここから都道府県プルダウン -->
 						<select name="address" th:value="${address}">
 							<option value="">---</option>
-								<option th:each="prefecture :${prefectures}" th:if = "${address == prefecture.value}" selected
-								th:value="${prefecture.value}" th:text = "${prefecture.value}"/>
-								<option th:each="prefecture :${prefectures}" th:if = "!${address == prefecture.value}"
+								<option th:each="prefecture :${prefectures}" th:selected = "${address == prefecture.value}"
 								th:value="${prefecture.value}" th:text = "${prefecture.value}"/>
 						</select>
 						<!-- ここまで都道府県プルダウン -->
