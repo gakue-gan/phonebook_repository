@@ -19,8 +19,7 @@
 		</tr>
 	</table>
 
-	<form th:action="@{/regist}" onsubmit="return submitChk()"
-		th:object="${message}" method="post">
+	<form th:action="@{/regist}" onsubmit="return submitChk()" th:object="${message}" method="post">
 		<div id="wrapper" style="margin-top: 10px;">
 			<div class="txt">
 
@@ -28,18 +27,19 @@
 					style="width: 210px; height: 20px;" /> <br>
 				<div>
 					<span>電話番号：</span>
-					<input type="text" name="areaCode"
-						th:value="${areaCode}" style="width: 60px; height: 20px;" />
-					<input type="text" name="cityCode" th:value="${cityCode}"
-						style="width: 60px; height: 20px;" />
-					<input type="text" name="identificationCode" th:value="${identificationCode}"
-						style="width: 60px; height: 20px;" />
+					<input type="text" name="areaCode" th:value="${areaCode}" style="width: 60px; height: 20px;" />
+					<input type="text" name="cityCode" th:value="${cityCode}" style="width: 60px; height: 20px;" />
+					<input type="text" name="identificationCode" th:value="${identificationCode}" style="width: 60px; height: 20px;" />
 					<div class="ui-body ui-body-a">
 						<span>都道府県：</span>
+
+						<!-- ここから都道府県プルダウン -->>
 						<select name="address" th:value="${address}">
 							<option value="">---</option>
 							<option th:each="prefecture :${prefectures}" th:value="${prefecture.value}" th:text = "${prefecture.value}"/>
 						</select>
+						<!-- ここまで都道府県プルダウン -->>
+
 					</div>
 				</div>
 				<div class="execute">

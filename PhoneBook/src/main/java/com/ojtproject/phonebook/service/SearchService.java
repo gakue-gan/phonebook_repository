@@ -76,17 +76,17 @@ public class SearchService {
 	}
 
 	/*
-	 * 住所をもとに各都道府県ごとの人数を集計。サマリーをCSVとして出力する。
+	 * CSV出力メソッド。住所をもとに各都道府県ごとの人数を集計。サマリーをCSVとして出力する。
 	 */
-
 	public void writeCSV(ModelAndView mav) {
-		Map<String, Integer> writtenMap = new LinkedHashMap<>(); // 出力するMap
+		Map<String, Integer> writtenMap = new LinkedHashMap<>(); 			// CSVファイルとして出力するMap<都道府県名, 居住人数>
+																			// 例：北海道, 23 青森県, 65
 
 		List<PhoneBookPh2Entity> phoneBookList = (ArrayList<PhoneBookPh2Entity>) session.getAttribute("phoneBookList");
-		// セッションに格納した電話帳リスト
-		Map<Integer, String> pfMap = Prefectures.getPrefecturesMap(); // 「1.北海道, 2.青森県…」といったMap
+																			// セッションに格納した電話帳リスト
+		Map<Integer, String> pfMap = Prefectures.getPrefecturesMap(); 		// 「1.北海道, 2.青森県…」といった都道府県Map
 
-		for (int i = 1; i <= 47; i++) {
+		for (int i = 1; i <= 47; i++) {										// 電話帳リストに該当都道府県の存在する件数をカウント
 			String prefecture = pfMap.get(i);
 			int count = 0;
 			for (int j = 0, len = phoneBookList.size(); j < len; j++) {
@@ -98,16 +98,17 @@ public class SearchService {
 			writtenMap.put(prefecture, count);
 		}
 
-		//カンマ
+																			//カンマ
 		final String COMMA = ",";
-		//改行
+																			//改行
 		final String NEW_LINE = "\r\n";
 
 		List<String> message = new ArrayList<>();
-		try {
-			String home = System.getProperty("user.home");
+		try {																// MapをCSVファイルに変換
+			String home = System.getProperty("user.home");					// ダウンロード先を各々のダウンロードフォルダに指定
 			OutputStream os = new FileOutputStream(home+"\\Downloads\\sample.csv");
-			OutputStreamWriter osw = new OutputStreamWriter(os, "Shift_JIS"); // csvFileをCSVファイルに変換
+			OutputStreamWriter osw = new OutputStreamWriter(os, "Shift_JIS");
+																			// CSVファイルの文字コードをShift-JISに変更(エクセル出力のため)
 			PrintWriter p = new PrintWriter(new BufferedWriter(osw));
 
 			p.print("都道府県");
@@ -115,7 +116,7 @@ public class SearchService {
 			p.print("居住人数");
 			p.print(NEW_LINE);
 
-			//リストの内容を順に処理
+																			//リストの内容を順に処理
 			for (Map.Entry<String, Integer> writtenData : writtenMap.entrySet()) {
 				p.print(writtenData.getKey());
 				p.print(COMMA);
@@ -124,11 +125,11 @@ public class SearchService {
 			}
 
 			p.close();
-			System.out.println("CSVファイル出力完了"); // 完了すればコンソールに表示
-			message.add("CSV出力が成功しました。");
+			System.out.println("CSVファイル出力完了"); 						// 完了すればコンソールに表示
+			message.add("CSV出力が成功しました。");							// 画面にも表示
 
 		} catch (Exception e) {
-			message.add("CSV出力が失敗しました。");
+			message.add("CSV出力が失敗しました。");							// 失敗すれば画面に表示
 			e.printStackTrace();
 		}
 		mav.addObject("msg", message);
