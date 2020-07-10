@@ -19,7 +19,7 @@ import com.ojtproject.phonebook.service.MessageService;
 import com.ojtproject.phonebook.service.RegistService;
 import com.ojtproject.phonebook.service.SearchService;
 import com.ojtproject.phonebook.service.UpdateService;
-import com.ojtproject.phonebook.util.PrefecturesUtil;
+import com.ojtproject.phonebook.util.Prefectures;
 
 @Controller
 public class PhoneBookController {
@@ -37,7 +37,7 @@ public class PhoneBookController {
 	/**トップページを表示*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView index(ModelAndView mav) {
-		search.search(null, mav);
+		search.search(null);
 		search.createPages(1, null, mav);
 		return mav;
 	}
@@ -46,7 +46,7 @@ public class PhoneBookController {
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ModelAndView search(SearchForm input, ModelAndView mav) {
 		String keyword = input.getKeyword();
-		search.search(keyword, mav);
+		search.search(keyword);
 		search.createPages(1, keyword, mav);
 		return mav;
 	}
@@ -67,6 +67,15 @@ public class PhoneBookController {
 		search.createPages(++pageNumber, keyword, mav);
 		return mav;
 	}
+	/**CSVファイルエクスポート*/
+	@RequestMapping(value = "/writeCSV", method = RequestMethod.GET)
+	public ModelAndView export(ModelAndView mav) {
+		search.writeCSV(mav);
+		search.search(null);
+		search.createPages(1, null, mav);
+		return mav;
+	}
+
 
 	/**登録ページへの遷移*/
 	@RequestMapping(value = "/regist", method = RequestMethod.GET)
@@ -74,7 +83,7 @@ public class PhoneBookController {
 		List<String> message = new ArrayList<>();
 		message.add(MessageService.REGIST_NEW);
 		mav.addObject("msg", message);
-		mav.addObject("prefectures", PrefecturesUtil.getPrefecturesMap());
+		mav.addObject("prefectures", Prefectures.getPrefecturesMap());
 		mav.setViewName("/regist");
 		return mav;
 	}
@@ -83,7 +92,7 @@ public class PhoneBookController {
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView regist(RegistForm input, ModelAndView mav) {
 		regist.regist(input, mav);
-		mav.addObject("prefectures", PrefecturesUtil.getPrefecturesMap());
+		mav.addObject("prefectures", Prefectures.getPrefecturesMap());
 		return mav;
 	}
 
@@ -93,6 +102,7 @@ public class PhoneBookController {
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber,
 			@RequestParam(value = "address", required = true) String address) {
+		mav.addObject("prefectures", Prefectures.getPrefecturesMap());
 		update.updateInIt(id, name, phoneNumber, address, mav);
 		mav.setViewName("/update");
 		return mav;

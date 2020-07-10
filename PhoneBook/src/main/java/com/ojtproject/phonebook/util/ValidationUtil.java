@@ -128,7 +128,7 @@ public class ValidationUtil {
 
 		Pattern p = Pattern.compile("^[!\"#$%&'()*+,-./:;<=>?@[¥]^_`{|}~！”＃＄％＆’（）＊＋，ー．／：；＜＝＞？＠［¥］＾＿‘｛｜｝～]*$");
 		Matcher m = p.matcher(keyword);
-		if(m.matches()) {
+		if(m.matches() && !"".equals(keyword) ) {
 			message.add("検索欄に入力できない記号があります。");
 		}
 

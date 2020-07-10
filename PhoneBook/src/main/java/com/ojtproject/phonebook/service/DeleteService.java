@@ -30,7 +30,7 @@ public class DeleteService {
 		phoneBookRepository.delete(id);
 		deleteMsg(name, mav);
 
-		search.search(null, mav);
+		search.search(null);
 		search.createPages(pageNumber, null, mav);
 	}
 

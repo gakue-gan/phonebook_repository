@@ -7,7 +7,7 @@ public class UpdateForm {
 	private String areaCode;
 	private String cityCode;
 	private String identificationCode;
-	private String address;
+	private String addressKey;
 
 
 	public int getId() {
@@ -15,11 +15,11 @@ public class UpdateForm {
 	}
 
 	public String getAddress() {
-		return address;
+		return addressKey;
 	}
 
 	public void setAddress(String address) {
-		this.address = address;
+		this.addressKey = address;
 	}
 
 	public void setId(int id) {

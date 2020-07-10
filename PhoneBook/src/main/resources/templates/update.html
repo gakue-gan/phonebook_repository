@@ -29,6 +29,16 @@
 					<input type="text" name="areaCode" th:value="${areaCode}" style="width: 60px; height: 20px;"/>
 					<input type="text" name="cityCode" th:value="${cityCode}" style="width: 60px; height: 20px;"/>
 					<input type="text" name="identificationCode" th:value="${identificationCode}" style="width: 60px; height: 20px;"/>
+					<div class="ui-body ui-body-a">
+						<span>都道府県：</span>
+						<select name="address" th:value="${address}">
+							<option value="">---</option>
+								<option th:each="prefecture :${prefectures}" th:if = "${address == prefecture.value}" selected
+								th:value="${prefecture.value}" th:text = "${prefecture.value}"/>
+								<option th:each="prefecture :${prefectures}" th:if = "!${address == prefecture.value}"
+								th:value="${prefecture.value}" th:text = "${prefecture.value}"/>
+						</select>
+					</div>
 					<div class="execute">
 						<input type="submit" class="execute_btn update" value="更新" />
 					</div>

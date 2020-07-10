@@ -1,7 +1,14 @@
 package com.ojtproject.phonebook.service;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ojtproject.phonebook.dao.PhoneBookRepository;
 import com.ojtproject.phonebook.entity.PhoneBookPh2Entity;
 import com.ojtproject.phonebook.form.SearchResultForm;
+import com.ojtproject.phonebook.util.Prefectures;
 import com.ojtproject.phonebook.util.ValidationUtil;
 
 /**
@@ -25,10 +33,10 @@ public class SearchService {
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;
 
-	public void search(String keyword, ModelAndView mav) {
+	public void search(String keyword) {
 
 		List<PhoneBookPh2Entity> phoneBookList = null;
-		if(!ValidationUtil.validateKeyword(keyword).isEmpty()) {
+		if (!ValidationUtil.validateKeyword(keyword).isEmpty()) {
 			// 入力値が不正な場合全件表示
 			phoneBookList = phoneBookRepository.findAll();
 
@@ -57,7 +65,7 @@ public class SearchService {
 			searchList.add(sf);
 		}
 
-		boolean existsNext = len > 15 * pageNumber ? true: false;
+		boolean existsNext = len > 15 * pageNumber ? true : false;
 
 		mav.addObject("existsNext", existsNext);
 		mav.addObject("searchList", searchList);
@@ -67,18 +75,77 @@ public class SearchService {
 		searchMsg(searchList, pageNumber, keyword, mav);
 	}
 
+	/*
+	 * 住所をもとに各都道府県ごとの人数を集計。サマリーをCSVとして出力する。
+	 */
+
+	public void writeCSV(ModelAndView mav) {
+		Map<String, Integer> writtenMap = new LinkedHashMap<>(); // 出力するMap
+
+		List<PhoneBookPh2Entity> phoneBookList = (ArrayList<PhoneBookPh2Entity>) session.getAttribute("phoneBookList");
+		// セッションに格納した電話帳リスト
+		Map<Integer, String> pfMap = Prefectures.getPrefecturesMap(); // 「1.北海道, 2.青森県…」といったMap
+
+		for (int i = 1; i <= 47; i++) {
+			String prefecture = pfMap.get(i);
+			int count = 0;
+			for (int j = 0, len = phoneBookList.size(); j < len; j++) {
+				PhoneBookPh2Entity pb = phoneBookList.get(j);
+				if(prefecture.equals(pb.getAddress())) {
+					count++;
+				}
+			}
+			writtenMap.put(prefecture, count);
+		}
+
+		//カンマ
+		final String COMMA = ",";
+		//改行
+		final String NEW_LINE = "\r\n";
+
+		List<String> message = new ArrayList<>();
+		try {
+			String home = System.getProperty("user.home");
+			OutputStream os = new FileOutputStream(home+"\\Downloads\\sample.csv");
+			OutputStreamWriter osw = new OutputStreamWriter(os, "Shift_JIS"); // csvFileをCSVファイルに変換
+			PrintWriter p = new PrintWriter(new BufferedWriter(osw));
+
+			p.print("都道府県");
+			p.print(COMMA);
+			p.print("居住人数");
+			p.print(NEW_LINE);
+
+			//リストの内容を順に処理
+			for (Map.Entry<String, Integer> writtenData : writtenMap.entrySet()) {
+				p.print(writtenData.getKey());
+				p.print(COMMA);
+				p.print(writtenData.getValue());
+				p.print(NEW_LINE);
+			}
+
+			p.close();
+			System.out.println("CSVファイル出力完了"); // 完了すればコンソールに表示
+			message.add("CSV出力が成功しました。");
+
+		} catch (Exception e) {
+			message.add("CSV出力が失敗しました。");
+			e.printStackTrace();
+		}
+		mav.addObject("msg", message);
+	}
+
 	private void searchMsg(List<SearchResultForm> searchList, int pageNumber,
 			String keyword, ModelAndView mav) {
 		List<PhoneBookPh2Entity> phoneBookList = (ArrayList<PhoneBookPh2Entity>) session.getAttribute("phoneBookList");
 
 		List<String> msg = new ArrayList<>();
 
-		List<String> deletedList = (List<String>)mav.getModelMap().getAttribute("msg");
-		if(deletedList != null) {
-			msg.addAll(deletedList);
+		List<String> msgList = (List<String>) mav.getModelMap().getAttribute("msg");
+		if (msgList != null) {
+			msg.addAll(msgList);
 		}
 		msg.addAll(ValidationUtil.validateKeyword(keyword));
-		if(msg.isEmpty()) {
+		if (msg.isEmpty()) {
 			msg.add(keyword + "を検索します。");
 		}
 
@@ -92,4 +159,5 @@ public class SearchService {
 		mav.addObject("msg", msg);
 
 	}
+
 }

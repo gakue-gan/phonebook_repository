@@ -6,7 +6,10 @@ function submitChk() {
 	return flag;
 }
 
-//地域と都道府県の一覧
+
+
+/**
+ * //地域と都道府県の一覧
 var areaPreList = {
   "00":{
     "01":"北海道",
@@ -113,8 +116,7 @@ var areaPreList = {
   };
 
   /**
-   * 初期処理
-   */
+
   $(document).ready(function(){
 
      // 都道府県プルダウン生成
@@ -126,9 +128,9 @@ var areaPreList = {
      $("select[name='address']").selectmenu('refresh',true);
    });
 
-  /**
-   * 都道府県のセレクターの制御
-   */
+
+   	// 都道府県のセレクターの制御
+
   $("select[name='areaselector']").on('change',function(event){
     var areano = $(this).val();
     // ドロップダウンリストを作成
@@ -138,9 +140,8 @@ var areaPreList = {
     $("select[name='address']").selectmenu('refresh',true);
   });
 
-  /**
-   * 都道府県のリストを作成して、リストに追加する。
-   */
+  //都道府県のリストを作成して、リストに追加する。
+
   function createPreDownList(areano) {
     var preList = areaPreList[areano];
     var optItem = "<option value='00'>選択してください</option>";
@@ -155,3 +156,4 @@ var areaPreList = {
     $("select[name='preselector'] option").remove();
     $("select[name='preselector']").append(optItem);
   }
+ */
