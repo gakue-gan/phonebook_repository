@@ -33,12 +33,12 @@
 					<div class="ui-body ui-body-a">
 						<span>都道府県：</span>
 
-						<!-- ここから都道府県プルダウン -->>
+						<!-- ここから都道府県プルダウン -->
 						<select name="address" th:value="${address}">
 							<option value="">---</option>
 							<option th:each="prefecture :${prefectures}" th:value="${prefecture.value}" th:text = "${prefecture.value}"/>
 						</select>
-						<!-- ここまで都道府県プルダウン -->>
+						<!-- ここまで都道府県プルダウン -->
 
 					</div>
 				</div>

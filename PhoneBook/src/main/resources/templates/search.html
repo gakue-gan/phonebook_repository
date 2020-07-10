@@ -26,13 +26,13 @@
 		</form>
 	</div>
 
-	<!-- ここからCSV出力ボタン -->>
+	<!-- ここからCSV出力ボタン -->
 	<div class="inline-block-1">
 		<form th:action="@{/writeCSV}" method="get">
 			<input type="submit" class="button export" value="出力" />
 		</form>
 	</div>
-	<!-- ここまでCSV出力ボタン -->><br>
+	<!-- ここまでCSV出力ボタン --><br>
 
 	<table id = "message" >
 		<tr th:each="word : ${msg}">
