@@ -83,7 +83,7 @@ public class PhoneBookController {
 		List<String> message = new ArrayList<>();
 		message.add(MessageService.REGIST_NEW);
 		mav.addObject("msg", message);
-		mav.addObject("prefectures", Prefectures.getPrefecturesMap());
+		mav.addObject("prefectures", Prefectures.values());
 		mav.setViewName("/regist");
 		return mav;
 	}
@@ -92,7 +92,7 @@ public class PhoneBookController {
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView regist(RegistForm input, ModelAndView mav) {
 		regist.regist(input, mav);
-		mav.addObject("prefectures", Prefectures.getPrefecturesMap());
+		mav.addObject("prefectures", Prefectures.values());
 		return mav;
 	}
 
@@ -102,7 +102,7 @@ public class PhoneBookController {
 			@RequestParam(value = "name", required = true) String name,
 			@RequestParam(value = "phoneNumber", required = true) String phoneNumber,
 			@RequestParam(value = "address", required = true) String address) {
-		mav.addObject("prefectures", Prefectures.getPrefecturesMap());
+		mav.addObject("prefectures", Prefectures.values());
 		update.updateInIt(id, name, phoneNumber, address, mav);
 		mav.setViewName("/update");
 		return mav;

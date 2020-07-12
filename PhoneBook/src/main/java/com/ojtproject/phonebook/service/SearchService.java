@@ -84,10 +84,10 @@ public class SearchService {
 
 		List<PhoneBookPh2Entity> phoneBookList = (ArrayList<PhoneBookPh2Entity>) session.getAttribute("phoneBookList");
 																			// セッションに格納した電話帳リスト
-		Map<Integer, String> pfMap = Prefectures.getPrefecturesMap(); 		// 「1.北海道, 2.青森県…」といった都道府県Map
+		Prefectures[] pf = Prefectures.values(); 							// 「1.北海道, 2.青森県…」といった都道府県Map
 
-		for (int i = 1; i <= 47; i++) {										// 電話帳リストに該当都道府県の存在する件数をカウント
-			String prefecture = pfMap.get(i);
+		for (Prefectures p : pf) {											// 電話帳リストに該当都道府県の存在する件数をカウント
+			String prefecture = p.getFullText();
 			int count = 0;
 			for (int j = 0, len = phoneBookList.size(); j < len; j++) {
 				PhoneBookPh2Entity pb = phoneBookList.get(j);

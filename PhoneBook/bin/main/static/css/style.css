@@ -48,20 +48,24 @@ h1 {
 }
 
 .button:hover {
-  opacity: 1;
+	opacity: 1;
 }
+
 
 
 .search {
 	background: #ff1694;
+
 }
 
 .regist {
 	background: #498eaf;
+
 }
 
 .export {
-	background: #111;
+	background: #222;
+
 }
 
 .execute {
@@ -80,25 +84,31 @@ h1 {
 	opacity: 0.8;
 }
 
-.execute_btn:hover{
+.execute_btn:hover {
 	opacity: 1;
 }
 
+
 .update {
 	background: #85cfb4;
+
 }
+
 .update_new {
 	text-align: center;
 	background: #85cfb4;
+
 }
 
 .delete {
 	background: #ffb312;
+
 }
 
 .inline-block-1 {
 	display: inline-block; /* インラインブロック要素にする */
 }
+
 .paging {
 	display: inline-block; /* インラインブロック要素にする */
 }
@@ -106,6 +116,7 @@ h1 {
 .prev {
 	text-align: left;
 }
+
 .next {
 	text-align: right;
 }
@@ -122,11 +133,10 @@ h1 {
 }
 
 .txt {
-	width:400px;
+	width: 400px;
 	display: inline-block;
 	text-align: left;
 }
-
 
 .phoneNum {
 	display: inine-block;
@@ -134,26 +144,26 @@ h1 {
 
 .return {
 	position: relative;
-  display: inline-block;
-  font-weight: bold;
-  padding: 0.25em 0;
-  text-decoration: none;
-  color: #67c5ff;
+	display: inline-block;
+	font-weight: bold;
+	padding: 0.25em 0;
+	text-decoration: none;
+	color: #67c5ff;
 }
 
 .return:before {
-  position: absolute;
-  content: '';
-  width: 100%;
-  height: 4px;
-  top:100%;
-  left: 0;
-  border-radius: 3px;
-  background:#ffffff;
-  transition: .2s;
+	position: absolute;
+	content: '';
+	width: 100%;
+	height: 4px;
+	top: 100%;
+	left: 0;
+	border-radius: 3px;
+	background: #ffffff;
+	transition: .2s;
 }
 
 .return:hover:before {
-  top: -webkit-calc(100% - 3px);
-  top: calc(100% - 3px);
+	top: -webkit-calc(100% - 3px);
+	top: calc(100% - 3px);
 }

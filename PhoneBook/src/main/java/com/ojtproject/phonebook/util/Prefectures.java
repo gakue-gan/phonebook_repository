@@ -1,60 +1,109 @@
 package com.ojtproject.phonebook.util;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+public enum Prefectures {
+	HOKKAIDO    (1, "北海道"),
+    AOMORI      (2, "青森"),
+    IWATE       (3, "岩手"),
+    MIYAGI      (4, "宮城"),
+    AKITA       (5, "秋田"),
+    YAMAGATA    (6, "山形"),
+    FUKUSHIMA   (7, "福島"),
+    IBARAKI     (8, "茨城"),
+    TOCHIGI     (9, "栃木"),
+    GUNMA       (10, "群馬"),
+    SAITAMA     (11, "埼玉"),
+    CHIBA       (12, "千葉"),
+    TOKYO       (13, "東京"),
+    KANAGAWA    (14, "神奈川"),
+    NIIGATA     (15, "新潟"),
+    TOYAMA      (16, "富山"),
+    ISHIKAWA    (17, "石川"),
+    FUKUI       (18, "福井"),
+    YAMANASHI   (19, "山梨"),
+    NAGANO      (20, "長野"),
+    GIFU        (21, "岐阜"),
+    SHIZUOKA    (22, "静岡"),
+    AICHI       (23, "愛知"),
+    MIE         (24, "三重"),
+    SHIGA       (25, "滋賀"),
+    KYOTO       (26, "京都"),
+    OSAKA       (27, "大阪"),
+    HYOGO       (28, "兵庫"),
+    NARA        (29, "奈良"),
+    WAKAYAMA    (30, "和歌山"),
+    TOTTORI     (31, "鳥取"),
+    SHIMANE     (32, "島根"),
+    OKAYAMA     (33, "岡山"),
+    HIROSHIMA   (34, "広島"),
+    YAMAGUCHI   (35, "山口"),
+    TOKUSHIMA   (36, "徳島"),
+    KAGAWA      (37, "香川"),
+    EHIME       (38, "愛媛"),
+    KOCHI       (39, "高知"),
+    FUKUOKA     (40, "福岡"),
+    SAGA        (41, "佐賀"),
+    NAGASAKI    (42, "長崎"),
+    KUMAMOTO    (43, "熊本"),
+    OITA        (44, "大分"),
+    MIYAZAKI    (45, "宮崎"),
+    KAGOSHIMA   (46, "鹿児島"),
+    OKINAWA     (47, "沖縄"),
+    ;
 
-public class Prefectures {
+    private final int code;
+    private final String text;
 
-	public static Map<Integer, String> getPrefecturesMap() {
-		Map<Integer, String>PrefecturesMap = new LinkedHashMap<Integer, String>();
-		PrefecturesMap.put(1, "北海道");
-		PrefecturesMap.put(2, "青森県");
-		PrefecturesMap.put(3, "岩手県");
-		PrefecturesMap.put(4, "宮城県");
-		PrefecturesMap.put(5, "秋田県");
-		PrefecturesMap.put(6, "山形県");
-		PrefecturesMap.put(7, "福島県");
-		PrefecturesMap.put(8, "茨城県");
-		PrefecturesMap.put(9, "栃木県");
-		PrefecturesMap.put(10, "群馬県");
-		PrefecturesMap.put(11, "埼玉県");
-		PrefecturesMap.put(12, "千葉県");
-		PrefecturesMap.put(13, "東京都");
-		PrefecturesMap.put(14, "神奈川県");
-		PrefecturesMap.put(15, "新潟県");
-		PrefecturesMap.put(16, "石川県");
-		PrefecturesMap.put(17, "富山県");
-		PrefecturesMap.put(18, "福井県");
-		PrefecturesMap.put(19, "山梨県");
-		PrefecturesMap.put(20, "長野県");
-		PrefecturesMap.put(21, "岐阜県");
-		PrefecturesMap.put(22, "静岡県");
-		PrefecturesMap.put(23, "愛知県");
-		PrefecturesMap.put(24, "三重県");
-		PrefecturesMap.put(25, "滋賀県");
-		PrefecturesMap.put(26, "京都府");
-		PrefecturesMap.put(27, "大阪府");
-		PrefecturesMap.put(28, "兵庫県");
-		PrefecturesMap.put(29, "奈良県");
-		PrefecturesMap.put(30, "和歌山県");
-		PrefecturesMap.put(31, "鳥取県");
-		PrefecturesMap.put(32, "島根県");
-		PrefecturesMap.put(33, "岡山県");
-		PrefecturesMap.put(34, "広島県");
-		PrefecturesMap.put(35, "山口県");
-		PrefecturesMap.put(36, "徳島県");
-		PrefecturesMap.put(37, "香川県");
-		PrefecturesMap.put(38, "愛媛県");
-		PrefecturesMap.put(39, "高知県");
-		PrefecturesMap.put(40, "福岡県");
-		PrefecturesMap.put(41, "佐賀県");
-		PrefecturesMap.put(42, "長崎県");
-		PrefecturesMap.put(43, "熊本県");
-		PrefecturesMap.put(44, "大分県");
-		PrefecturesMap.put(45, "宮崎県");
-		PrefecturesMap.put(46, "鹿児島県");
-		PrefecturesMap.put(47, "沖縄県");
+    private Prefectures(int code, String text) {
+       this.code = code;
+       this.text = text;
+    }
 
-		return PrefecturesMap;
-	}
+    public int getCode() {
+    	return code;
+    }
+
+    public String getText() {
+    	return text;
+    }
+
+    public String getFullText() {
+    	String prefecture= "";
+    	switch(this) {
+    	case HOKKAIDO:
+    		prefecture = getText();
+    		break;
+    	case TOKYO:
+    		prefecture = getText() + "都";
+    		break;
+    	case KYOTO:
+    	case OSAKA:
+    		prefecture = getText() + "府";
+    		break;
+    	default:
+    		prefecture = getText() + "県";
+    		break;
+    	}
+    	return prefecture;
+    }
+
+    public static Prefectures getByCode(int code) {
+    	for(Prefectures p : Prefectures.values()) {
+    		if (p.getCode() == code) return p;
+    	}
+    	return null;
+    }
+
+    public static Prefectures getByText(String text) {
+    	for (Prefectures p : Prefectures.values()) {
+    		if(p.getText().equals(text)) return p;
+    	}
+    	return null;
+    }
+
+    public static Prefectures getByFullText(String fullText) {
+    	for(Prefectures p : Prefectures.values()) {
+    		if (p.getFullText().equals(fullText)) return p;
+    	}
+    	return null;
+    }
 }

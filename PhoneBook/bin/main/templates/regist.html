@@ -23,7 +23,7 @@
 		<div id="wrapper" style="margin-top: 10px;">
 			<div class="txt">
 
-				<span>名前 ：</span> <input type="text" name="name" th:value="${name}"
+				<span>名前　　：</span> <input type="text" name="name" th:value="${name}"
 					style="width: 210px; height: 20px;" /> <br>
 				<div>
 					<span>電話番号：</span>
@@ -36,7 +36,7 @@
 						<!-- ここから都道府県プルダウン -->
 						<select name="address" th:value="${address}">
 							<option value="">---</option>
-							<option th:each="prefecture :${prefectures}" th:value="${prefecture.value}" th:text = "${prefecture.value}"/>
+							<option th:each="prefecture :${prefectures}" th:value="${prefecture.getFullText()}" th:text = "${prefecture.getFullText()}"/>
 						</select>
 						<!-- ここまで都道府県プルダウン -->
 

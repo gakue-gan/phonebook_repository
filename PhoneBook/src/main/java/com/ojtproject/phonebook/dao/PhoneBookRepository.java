@@ -18,8 +18,12 @@ public interface PhoneBookRepository extends JpaRepository<PhoneBookPh2Entity, L
 	@Query(value = "SELECT p.id, p.name, p.phone_number,p.address FROM phone_book_ph2 p ORDER BY p.id", nativeQuery = true)
 	public List<PhoneBookPh2Entity> findAll();
 
-	@Query(value = "SELECT p.id,  p.name, p.phone_number,p.address FROM phone_book_ph2 p "
-			+ "WHERE p.name LIKE %:keyword% OR p.phone_number LIKE %:keyword% ORDER BY p.id", nativeQuery = true)
+	@Query(value =
+			"SELECT p1.id, p1.name, p1.phone_number,p1.address FROM phone_book_ph2 p1 WHERE p1.name LIKE %:keyword% "
+			+ " UNION  "
+			+ " SELECT p2.id, p2.name, p2.phone_number,p2.address FROM phone_book_ph2 p2 WHERE p2.phone_number LIKE %:keyword% "
+			+ " UNION  "
+			+ " SELECT p3.id, p3.name, p3.phone_number,p3.address FROM phone_book_ph2 p3 WHERE p3.address LIKE %:keyword% ORDER BY id", nativeQuery = true)
 	public List<PhoneBookPh2Entity> find(@Param("keyword")String keyword);
 
 	/**削除SQL*/
