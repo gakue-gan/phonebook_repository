@@ -3,8 +3,6 @@ package com.ojtproject.phonebook.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,8 +14,7 @@ import com.ojtproject.phonebook.form.DeleteForm;
 public class DeleteService {
 	@Autowired
 	private SearchService search;
-	@Autowired
-	private HttpSession session;
+
 
 	@Autowired
 	private PhoneBookRepository phoneBookRepository;

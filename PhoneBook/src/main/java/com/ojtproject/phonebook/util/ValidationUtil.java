@@ -47,7 +47,7 @@ public class ValidationUtil {
 			Pattern p = Pattern.compile(regex_num);
 			Matcher m = p.matcher(phoneCode);
 			if(!m.matches()) {
-				message.add(str + "には半角数字以外を入力しないでください");
+				message.add(str + "に半角数字以外を入力しないでください。");
 				continue;
 			}
 

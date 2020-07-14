@@ -13,11 +13,9 @@
 		<h1>電話帳</h1>
 	</div>
 
-	<table id="message">
-		<tr th:each="word : ${msg}">
-			<td th:text="${word}"></td>
-		</tr>
-	</table>
+	<ul id = "message">
+		<li th:each = "word: ${msg}" th:text = "${word}"></li>
+	</ul>
 
 	<form th:action="@{/regist}" onsubmit="return submitChk()" th:object="${message}" method="post">
 		<div id="wrapper" style="margin-top: 10px;">

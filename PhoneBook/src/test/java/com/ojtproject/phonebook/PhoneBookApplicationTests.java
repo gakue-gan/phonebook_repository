@@ -60,6 +60,11 @@ class PhoneBookApplicationTests {
 		isCorrect = ValidationUtil.validateName(name);
 		assertThat(isCorrect.isEmpty(), is(true));
 
+		name = "$$$";
+		isCorrect = ValidationUtil.validateName(name);
+		msg = "名前に入力できない記号があります。";
+		assertThat(isCorrect.get(0), is(msg));
+
 	}
 
 	@Test
@@ -97,21 +102,21 @@ class PhoneBookApplicationTests {
 		secondBox = "1111";
 		thirdBox = "1111";
 		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
-		msg = "市外局番に文字を入力しないでください。";
+		msg = "市外局番に半角数字以外を入力しないでください。";
 		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "1111";
 		secondBox = "aaaa";
 		thirdBox = "1111";
 		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
-		msg = "市内局番に文字を入力しないでください。";
+		msg = "市内局番に半角数字以外を入力しないでください。";
 		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "1111";
 		secondBox = "1111";
 		thirdBox = "aaaa";
 		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
-		msg = "認識番号に文字を入力しないでください。";
+		msg = "認識番号に半角数字以外を入力しないでください。";
 		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "11 1";
@@ -177,46 +182,46 @@ class PhoneBookApplicationTests {
 		msg = "認識番号が未入力です。";
 		assertThat(isCorrect.get(0), is(msg));
 
-		firstBox = "11";
+		firstBox = "1";
 		secondBox = "1111";
 		thirdBox = "1111";
 		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
-		msg = "市外局番は3，4文字で入力してください。";
+		msg = "市外局番は2～4文字で入力してください。";
 		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "1111";
-		secondBox = "11";
+		secondBox = "1";
 		thirdBox = "1111";
 		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
-		msg = "市内局番は3，4文字で入力してください。";
+		msg = "市内局番は2～4文字で入力してください。";
 		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "1111";
 		secondBox = "1111";
-		thirdBox = "11";
+		thirdBox = "1";
 		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
-		msg = "認識番号は3，4文字で入力してください。";
+		msg = "認識番号は2～4文字で入力してください。";
 		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "11111";
 		secondBox = "1111";
 		thirdBox = "1111";
 		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
-		msg = "市外局番は3，4文字で入力してください。";
+		msg = "市外局番は2～4文字で入力してください。";
 		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "1111";
 		secondBox = "11111";
 		thirdBox = "1111";
 		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
-		msg = "市内局番は3，4文字で入力してください。";
+		msg = "市内局番は2～4文字で入力してください。";
 		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "1111";
 		secondBox = "1111";
 		thirdBox = "11111";
 		isCorrect = ValidationUtil.validateOneBox(firstBox, secondBox, thirdBox);
-		msg = "認識番号は3，4文字で入力してください。";
+		msg = "認識番号は2～4文字で入力してください。";
 		assertThat(isCorrect.get(0), is(msg));
 
 		firstBox = "1111";
@@ -298,9 +303,33 @@ class PhoneBookApplicationTests {
 		msg = "全件を表示します。";
 		assertThat(isCorrect.get(1), is(msg));
 
+		keyword = "＄";
+		isCorrect = ValidationUtil.validateKeyword(keyword);
+		msg = "検索欄に入力できない記号があります。";
+		assertThat(isCorrect.get(0), is(msg));
+		msg = "全件を表示します。";
+		assertThat(isCorrect.get(1), is(msg));
+
 		keyword = "あいうえお";
 		isCorrect = ValidationUtil.validateKeyword(keyword);
 		assertThat(isCorrect.isEmpty(), is(true));
+	}
+
+	@Test
+	public void validateAddressTest() {
+		String address = "茨城県";
+		List<String> isCorrect = ValidationUtil.validateAddress(address);
+		assertThat(isCorrect.isEmpty(), is(true));
+
+		address = "";
+		isCorrect = ValidationUtil.validateAddress(address);
+		String msg = "居住都道府県を選択してください。";
+		assertThat (isCorrect.get(0), is(msg));
+
+		address = null;
+		isCorrect = ValidationUtil.validateAddress(address);
+		msg = "居住都道府県を選択してください。";
+		assertThat (isCorrect.get(0), is(msg));
 	}
 
 	@Test

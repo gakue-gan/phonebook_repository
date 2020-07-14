@@ -12,23 +12,38 @@ body {
 	margin: 0;
 }
 
+header {
+	height: 65px;
+  	width: 100%;
+  /* positionプロパティをfixedに、topを0に指定してください */
+  	position: fixed;
+  	top: 0;
+  /* z-indexを10に指定してください */
+  	z-index: 10;
+}
+#contents-area {
+	padding-top: 75px ;
+	margin: 0 auto;
+}
 h1 {
 	color: #12406a;
 }
 
 #table {
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0 auto;
+	display:inline-block;
 }
 
 #message {
 	margin-left: auto;
 	margin-right: auto;
+	padding: 0 auto;
 }
 
-#table, th, td {
-	border: 1px solid #bbb;
+ul {
+	list-style: none;
 }
+
 
 .accountInfo {
 	margin-top: 20px;
@@ -111,19 +126,28 @@ h1 {
 
 .paging {
 	display: inline-block; /* インラインブロック要素にする */
+	vertical-align: top;
 }
 
 .prev {
-	text-align: left;
+	float: left
 }
 
 .next {
-	text-align: right;
+	float: right;
 }
 
-.wrapper-paging {
+#wrapper-paging {
 	margin: 0 auto;
 	width: 300px;
+	display: inline-block;
+
+}
+#phonebook-list {
+	margin-top: 0;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 #wrapper {

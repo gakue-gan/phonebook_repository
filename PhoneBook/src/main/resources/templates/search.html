@@ -9,94 +9,98 @@
 </head>
 <body>
 	<script type="text/javascript" src="js/script.js"></script>
+	<header>
+		<div class="inline-block-1">
+			<h1>電話帳</h1>
+		</div>
+		<div class="inline-block-1">
+			<form th:action="@{/search}" th:object="${message}" method="post">
+				<input type="text" name="keyword" placeholder="検索したい名前か電話番号を入力"
+					th:value="${keyword}" style="width: 200px; height: 20px;" /> <input
+					type="submit" class="button search" value="検索" />
+			</form>
+		</div>
+		<div class="inline-block-1">
+			<form th:action="@{/regist}" method="get">
+				<input type="submit" class="button regist" value="登録" />
+			</form>
+		</div>
 
-	<div class="inline-block-1">
-		<h1>電話帳</h1>
-	</div>
-	<div class="inline-block-1">
-		<form th:action="@{/search}" th:object="${message}" method="post">
-			<input type="text" name="keyword" placeholder="検索したい名前か電話番号を入力"
-				th:value="${keyword}" style="width: 200px; height: 20px;" />
-				<input type="submit" class="button search" value="検索" />
-		</form>
-	</div>
-	<div class="inline-block-1">
-		<form th:action="@{/regist}" method="get">
-			<input type="submit" class="button regist" value="登録" />
-		</form>
-	</div>
+		<!-- ここからCSV出力ボタン -->
+		<div class="inline-block-1">
+			<form th:action="@{/writeCSV}" method="get">
+				<input type="submit" class="button export" value="出力" />
+			</form>
+		</div>
+		<!-- ここまでCSV出力ボタン -->
+		<br>
+	</header>
+	<div id="contents-area">
+		<ul id="message">
+			<li th:each="word: ${msg}" th:text="${word}"></li>
+		</ul>
 
-	<!-- ここからCSV出力ボタン -->
-	<div class="inline-block-1">
-		<form th:action="@{/writeCSV}" method="get">
-			<input type="submit" class="button export" value="出力" />
-		</form>
-	</div>
-	<!-- ここまでCSV出力ボタン --><br>
-
-	<table id = "message" >
-		<tr th:each="word : ${msg}">
-			<td th:text = "${word}"></td>
-		</tr>
-	</table>
-	<div class = "wrapper-paging">
-	<div th:if="!${pageNumber == 1}" class="paging prev">
-		<form th:action="@{/prevPaging}" method="get">
-			<input type="hidden" name="pageNumber" th:value="${pageNumber}">
-			<input type="hidden" name="keyword" th:value="${keyword}">
-			<input type="submit" value="←戻る" />
-		</form>
-	</div>
-
-	<div th:if="${existsNext}" class="paging next">
-		<form th:action="@{/nextPaging}" method="get">
-			<input type="hidden" name="pageNumber" th:value="${pageNumber}">
-			<input type="hidden" name="keyword" th:value="${keyword}">
-			<input type="submit" value="進む→" />
-		</form>
-	</div>
-	</div>
-	<table id="table" border="1" style="border-collapse: collapse">
-		<tr>
-			<th class="No">No</th>
-			<th class="name">名前</th>
-			<th class="phoneNumber">電話番号</th>
-			<th class="address">都道府県</th>
-			<th class="upBtn">更新</th>
-			<th class="delBtn">削除</th>
-		</tr>
-
-		<tr th:each="phoneBook, stat :${searchList}">
-			<td th:text="${stat.count + 15 * (pageNumber - 1)}"></td>
-			<td th:text="${phoneBook.name}"></td>
-			<td th:text="${phoneBook.phoneNumber}"></td>
-			<td th:text="${phoneBook.address}"></td>
-			<td>
-				<form th:action="@{/update}" th:object="${message}"
-					method="get">
-					<input type="hidden" name = "keyword" th:value=${keyword}>
-					<input type="hidden" name = "" th:value=${keyword}>
-					<input type="hidden" name="id" th:value="${phoneBook.id}">
-					<input type="hidden" name="name" th:value="${phoneBook.name}">
-					<input type="hidden" name="phoneNumber" th:value="${phoneBook.phoneNumber}">
-					<input type="hidden" name="address" th:value="${phoneBook.address}">
-
-					<input type="submit" class="button update" value="更新" />
-				</form>
-
-			</td>
-			<td>
-
-				<form th:action="@{/delete}"
-					onsubmit="return submitChk()" th:object="${inputForm}" method="get">
-					<input type="hidden" name="id" th:value="${phoneBook.id}">
-					<input type="hidden" name="name" th:value="${phoneBook.name}">
+		<div id="wrapper-paging">
+			<div th:if="!${pageNumber == 1}" class="paging prev">
+				<form th:action="@{/prevPaging}" method="get">
 					<input type="hidden" name="pageNumber" th:value="${pageNumber}">
-					<input type="submit" class="button delete" value="削除" />
-
+					<input type="hidden" name="keyword" th:value="${keyword}">
+					<input type="submit" value="←戻る" />
 				</form>
-			</td>
-		</tr>
-	</table>
+			</div>
+
+			<div th:if="${existsNext}" class="paging next">
+				<form th:action="@{/nextPaging}" method="get">
+					<input type="hidden" name="pageNumber" th:value="${pageNumber}">
+					<input type="hidden" name="keyword" th:value="${keyword}">
+					<input type="submit" value="進む→" />
+				</form>
+			</div>
+		</div>
+		<br>
+		<div id="phonebook-list">
+			<table id="table" border="1" ><!-- style="border-collapse: collapse" -->
+				<tr>
+					<th class="No">No</th>
+					<th class="name">名前</th>
+					<th class="phoneNumber">電話番号</th>
+					<th class="address">都道府県</th>
+					<th class="upBtn">更新</th>
+					<th class="delBtn">削除</th>
+				</tr>
+
+				<tr th:each="phoneBook, stat :${searchList}">
+					<td th:text="${stat.count + 15 * (pageNumber - 1)}"></td>
+					<td th:text="${phoneBook.name}"></td>
+					<td th:text="${phoneBook.phoneNumber}"></td>
+					<td th:text="${phoneBook.address}"></td>
+					<td>
+						<form th:action="@{/update}" th:object="${message}" method="get">
+							<input type="hidden" name="keyword" th:value=${keyword}>
+							<input type="hidden" name="" th:value=${keyword}>
+							<input type="hidden" name="id" th:value="${phoneBook.id}">
+							<input type="hidden" name="name" th:value="${phoneBook.name}">
+							<input type="hidden" name="phoneNumber" th:value="${phoneBook.phoneNumber}">
+							<input type="hidden" name="address" th:value="${phoneBook.address}">
+
+							<input type="submit" class="button update" value="更新" />
+						</form>
+
+					</td>
+					<td>
+
+						<form th:action="@{/delete}" onsubmit="return submitChk()"
+							th:object="${inputForm}" method="get">
+							<input type="hidden" name="id" th:value="${phoneBook.id}">
+							<input type="hidden" name="name" th:value="${phoneBook.name}">
+							<input type="hidden" name="pageNumber" th:value="${pageNumber}">
+							<input type="submit" class="button delete" value="削除" />
+
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 </body>
 </html>

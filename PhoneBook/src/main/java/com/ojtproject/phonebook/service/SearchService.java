@@ -51,6 +51,7 @@ public class SearchService {
 
 	public void createPages(int pageNumber, String keyword, ModelAndView mav) {
 
+		@SuppressWarnings("unchecked")
 		List<PhoneBookPh2Entity> phoneBookList = (ArrayList<PhoneBookPh2Entity>) session.getAttribute("phoneBookList");
 		List<SearchResultForm> searchList = new ArrayList<>();
 
@@ -81,7 +82,7 @@ public class SearchService {
 	public void writeCSV(ModelAndView mav) {
 		Map<String, Integer> writtenMap = new LinkedHashMap<>(); 			// CSVファイルとして出力するMap<都道府県名, 居住人数>
 																			// 例：北海道, 23 青森県, 65
-
+		@SuppressWarnings("unchecked")
 		List<PhoneBookPh2Entity> phoneBookList = (ArrayList<PhoneBookPh2Entity>) session.getAttribute("phoneBookList");
 																			// セッションに格納した電話帳リスト
 		Prefectures[] pf = Prefectures.values(); 							// 「1.北海道, 2.青森県…」といった都道府県Map
@@ -89,9 +90,9 @@ public class SearchService {
 		for (Prefectures p : pf) {											// 電話帳リストに該当都道府県の存在する件数をカウント
 			String prefecture = p.getFullText();
 			int count = 0;
-			for (int j = 0, len = phoneBookList.size(); j < len; j++) {
-				PhoneBookPh2Entity pb = phoneBookList.get(j);
-				if(prefecture.equals(pb.getAddress())) {
+			for (int i = 0, len = phoneBookList.size(); i < len; i++) {
+				PhoneBookPh2Entity pbe = phoneBookList.get(i);
+				if(prefecture.equals(pbe.getAddress())) {
 					count++;
 				}
 			}
@@ -104,13 +105,12 @@ public class SearchService {
 		final String NEW_LINE = "\r\n";
 
 		List<String> message = new ArrayList<>();
-		try {																// MapをCSVファイルに変換
-			String home = System.getProperty("user.home");					// ダウンロード先を各々のダウンロードフォルダに指定
-			OutputStream os = new FileOutputStream(home+"\\Downloads\\sample.csv");
-			OutputStreamWriter osw = new OutputStreamWriter(os, "Shift_JIS");
-																			// CSVファイルの文字コードをShift-JISに変更(エクセル出力のため)
-			PrintWriter p = new PrintWriter(new BufferedWriter(osw));
 
+		PrintWriter p = null;
+		String home = System.getProperty("user.home");					// ダウンロード先を各々のダウンロードフォルダに指定
+		try(OutputStream os = new FileOutputStream(home+"\\Downloads\\sample.csv");
+				OutputStreamWriter osw = new OutputStreamWriter(os, "Shift_JIS")) {
+			p = new PrintWriter(new BufferedWriter(osw));
 			p.print("都道府県");
 			p.print(COMMA);
 			p.print("居住人数");
@@ -124,23 +124,26 @@ public class SearchService {
 				p.print(NEW_LINE);
 			}
 
-			p.close();
 			System.out.println("CSVファイル出力完了"); 						// 完了すればコンソールに表示
 			message.add("CSV出力が成功しました。");							// 画面にも表示
-
-		} catch (Exception e) {
+		}catch (Exception e) {
 			message.add("CSV出力が失敗しました。");							// 失敗すれば画面に表示
 			e.printStackTrace();
+		} finally {
+			p.close();
 		}
+
 		mav.addObject("msg", message);
 	}
 
 	private void searchMsg(List<SearchResultForm> searchList, int pageNumber,
 			String keyword, ModelAndView mav) {
+		@SuppressWarnings("unchecked")
 		List<PhoneBookPh2Entity> phoneBookList = (ArrayList<PhoneBookPh2Entity>) session.getAttribute("phoneBookList");
 
 		List<String> msg = new ArrayList<>();
 
+		@SuppressWarnings("unchecked")
 		List<String> msgList = (List<String>) mav.getModelMap().getAttribute("msg");
 		if (msgList != null) {
 			msg.addAll(msgList);
